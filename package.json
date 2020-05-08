@@ -8,6 +8,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@nozbe/watermelondb": "^0.16.0",
+    "@nozbe/with-observables": "^1.0.5",
     "@react-native-community/masked-view": "^0.1.8",
     "@react-native-community/netinfo": "^5.7.0",
     "@react-navigation/material-bottom-tabs": "^5.1.8",
@@ -23,6 +25,7 @@
     "install": "^0.13.0",
     "moment": "^2.24.0",
     "native-base": "2.13.8",
+    "pouchdb": "^7.2.1",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",
     "react-native": "~0.61.5",
