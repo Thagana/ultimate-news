@@ -88,7 +88,6 @@ const Article = (props) => {
       console.log(error);
     }
   };
-  console.log(props.image);
   return (
     <Card style={{ margin: 5, borderRadius: 10 }}>
       <Card.Title

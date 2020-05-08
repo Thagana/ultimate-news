@@ -27,7 +27,12 @@ const Home = (props) => {
 
   useEffect(() => {}, []);
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        marginTop: 27,
+      }}
+    >
       <SearchBar
         placeholder="Search"
         onChangeText={(term) => setterm(term)}
