@@ -126,16 +126,6 @@ const TabScreen = () => {
         }}
       />
       <Tab.Screen
-        name="Setting"
-        component={SettingStackScreeen}
-        options={{
-          tabBarLabel: "Settings",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="settings" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
         name="Saved"
         component={SafeStackScreen}
         options={{
