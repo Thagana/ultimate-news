@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, SafeAreaView, Platform } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  SafeAreaView,
+  Platform,
+  StatusBar,
+  FlatList,
+  RefreshControl,
+} from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 import { SearchBar } from "react-native-elements";
 
@@ -14,17 +23,10 @@ import { ScrollView } from "react-native-gesture-handler";
 
 const Home = (props) => {
   const [term, setterm] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const [articles, setArticle] = useState([]);
   const [articleCount, setArticleCount] = useState(0);
   const [connectd, setconnectd] = useState(true);
-
-  const searchNews = () => {
-    getSearchedNews(term)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => console.log(errro));
-  };
 
   useEffect(() => {
     getAllNews()
@@ -34,8 +36,23 @@ const Home = (props) => {
       })
       .catch();
   }, []);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    getAllNews()
+      .then((response) => {
+        // console.log(response.data.articles);
+        setArticle(response.data.articles);
+        setRefreshing(false);
+      })
+      .catch();
+  }, [refreshing]);
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        marginTop: 27,
+      }}
+    >
       <SearchBar
         placeholder="Search"
         onChangeText={(term) => setterm(term)}
@@ -44,8 +61,16 @@ const Home = (props) => {
         onFocus={() => props.navigation.navigate("Search")}
       />
       {connectd ? (
-        <View>
-          <ScrollView>
+        <View
+          style={{
+            flex: -1,
+          }}
+        >
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          >
             <View style={{ marginBottom: 5 }}>
               {articles.length !== 0 ? (
                 articles.map((item, index) => {
