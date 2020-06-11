@@ -1,4 +1,4 @@
-rootProject.name = 'ultimatenews'
+rootProject.name = 'UltimateNews'
 
 apply from: '../node_modules/react-native-unimodules/gradle.groovy'
 includeUnimodulesProjects()
