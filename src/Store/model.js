@@ -1,6 +1,6 @@
 import { action } from 'easy-peasy';
 
-export default{
+export default {
     isDarkMode: false,
     articles: [],
     isLocal: true,
