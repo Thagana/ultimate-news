@@ -9,15 +9,10 @@ import {
   FlatList,
   RefreshControl,
 } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
-import { SearchBar } from "react-native-elements";
-
+import { ActivityIndicator, Snackbar, Searchbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
 
-/** Component */
 import Article from "./components/Article";
-
-/** news API */
 import { getAllNews, getSearchedNews } from "../functions/newsController";
 import { ScrollView } from "react-native-gesture-handler";
 
@@ -27,7 +22,15 @@ const Home = (props) => {
   const [articles, setArticle] = useState([]);
   const [articleCount, setArticleCount] = useState(0);
   const [connectd, setconnectd] = useState(true);
+  const [visible, setVisible] = React.useState(false);
+  const [message, setMessage] = React.useState('');
 
+  const onDismissSnackBar = () => setVisible(false);
+  const onToggleSnackBar = () => setVisible(!visible);
+  const onDownload = (data) => {
+    setMessage('Article Downloaded');
+    onToggleSnackBar();
+  }
   useEffect(() => {
     getAllNews()
       .then((response) => {
@@ -53,12 +56,21 @@ const Home = (props) => {
         marginTop: 27,
       }}
     >
-      <SearchBar
+      <Searchbar
         placeholder="Search"
         onChangeText={(term) => setterm(term)}
         value={term}
-        platform={Platform.OS == "ios" ? "ios" : "android"}
         onFocus={() => props.navigation.navigate("Search")}
+        style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 5},
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          elevation: 10,
+          borderRadius: 50,
+          marginTop: 3,
+          color: '#fff',
+        }}
       />
       {connectd ? (
         <View
@@ -85,6 +97,7 @@ const Home = (props) => {
                       description={item.description}
                       url={item.url}
                       navigation={props.navigation}
+                      onDownload={onDownload}
                     />
                   );
                 })
@@ -101,6 +114,14 @@ const Home = (props) => {
               )}
             </View>
           </ScrollView>
+          <View>
+          <Snackbar
+            visible={visible}
+            onDismiss={onDismissSnackBar}
+            >
+            {message}
+          </Snackbar>
+          </View>
         </View>
       ) : (
         <View>
