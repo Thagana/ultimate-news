@@ -1,20 +1,17 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Share } from "react-native";
 import { Avatar, Card, Title, Paragraph } from "react-native-paper";
+import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
-
-/** State manager */
 import { useStoreActions, useStoreState } from "easy-peasy";
-
 import moment from "moment";
 import { Entypo } from "@expo/vector-icons";
-
-/** Functions */
 import { Manager, Store } from "../../functions/articleController";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 const Article = (props) => {
+  const { onDownload, url } = props;
   const addArt = useStoreActions((action) => action.addArticle);
   const isDarkMode = useStoreState((state) => state.isDarkMode);
   const handleShare = async () => {
@@ -25,7 +22,7 @@ const Article = (props) => {
 
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          console.log("Shared with ...");
+          console.log('Shared with type')
         } else {
           console.log("Shared");
         }
@@ -37,9 +34,7 @@ const Article = (props) => {
     }
   };
   const handleVisit = async () => {
-    props.navigation.navigate("Article", {
-      url: props.url,
-    });
+    Linking.openURL(url);
   };
 
   const donwloadFile = async (image) => {
@@ -49,7 +44,6 @@ const Article = (props) => {
       try {
         let response = await downloadObject.downloadAsync();
         if (response.status === 200) {
-          // console.log(response.uri)
           const Article = new Manager(
             props.source.name,
             props.title,
@@ -61,7 +55,7 @@ const Article = (props) => {
           Store.addArticle(Article);
           addArt(Article);
         } else {
-          alert("Something went wrong while downloading");
+          console.log("Something went wrong while downloading");
         }
       } catch (error) {
         console.log(error);
@@ -83,7 +77,8 @@ const Article = (props) => {
   const handleSave = async () => {
     try {
       //Download Images and save path
-      donwloadFile(props.image);
+      await donwloadFile(props.image);
+      onDownload('Downloaded');
     } catch (error) {
       console.log(error);
     }
@@ -102,7 +97,7 @@ const Article = (props) => {
       <Card.Cover
         source={
           props.image === null
-            ? require("../../assets/no_internet.png")
+            ? require("../../assets/download.png")
             : { uri: props.image }
         }
       />

@@ -1,21 +1,20 @@
 import axios from "axios"
 import Constants from 'expo-constants';
 
-
-const NEWS_API = Constants.manifest.extra.G_NEWS_TOKEN;
-
-export const getAllNews = () => {
+export const getAllNews = async () => {
     const COUNTRY = 'za';
-    return axios.get(`https://newsapi.org/v2/top-headlines?country=${COUNTRY}&apiKey=${NEWS_API}`).then(response => {
-        // console.log(`the: ${response}`)
-        return response
-    }).catch(error => error)
+    try {
+        const response = await axios.get(`https://newsapi.org/v2/top-headlines?country=${COUNTRY}&apiKey=${'35cf4cfccb8743cdbecd289312c5634d'}`);
+        return response;
+    } catch (error) {
+        return error;
+    }
 }
-export const getSearchedNews = (query) => {
-    return axios.get(`https://newsapi.org/v2/everything?q=+${query}&apiKey=${NEWS_API}`)
-    .then(response => {
-        return response
-    }).catch(error => {
-        return error
-    })
+export const getSearchedNews = async (query) => {
+    try {
+        const response = await axios.get(`https://newsapi.org/v2/everything?q=+${query}&apiKey=${'35cf4cfccb8743cdbecd289312c5634d'}`);
+        return response;
+    } catch (error) {
+        return error;
+    }
 }

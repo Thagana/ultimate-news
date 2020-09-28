@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, SafeAreaView } from "react-native";
-import { Searchbar, ActivityIndicator } from "react-native-paper";
+import { ActivityIndicator } from "react-native-paper";
 import { SearchBar } from "react-native-elements";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -17,12 +17,14 @@ const Home = (props) => {
   const [articleCount, setArticleCount] = useState(0);
   const [connectd, setconnectd] = useState(true);
 
-  const searchNews = (props) => {
-    getSearchedNews(term)
-      .then((response) => {
-        setArticle(response.data.articles);
-      })
-      .catch((error) => console.log(error));
+  const searchNews = async() => {
+    try {
+      const response = await getSearchedNews(term);
+      const data = await response.data.articles;
+      setArticle(data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {}, []);
@@ -39,11 +41,20 @@ const Home = (props) => {
         value={term}
         platform={Platform.OS == "ios" ? "ios" : "android"}
         autoFocus
+        style={{
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 5},
+          shadowOpacity: 0.1,
+          shadowRadius: 10,
+          elevation: 10,
+          borderRadius: 50,
+          marginTop: 3,
+          color: '#fff',
+        }}
         keyboardAppearance="dark"
         onCancel={() => props.navigation.navigate("Ultimate News")}
         onKeyPress={() => searchNews()}
       />
-      {connectd ? (
         <View>
           <ScrollView>
             <View style={{ marginBottom: 5 }}>
@@ -77,11 +88,6 @@ const Home = (props) => {
             </View>
           </ScrollView>
         </View>
-      ) : (
-        <View>
-          <Image source={require("../assets/no_internet.png")} />
-        </View>
-      )}
     </SafeAreaView>
   );
 };
