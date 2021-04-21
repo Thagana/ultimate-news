@@ -10,7 +10,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-/** Themeing */
+/** Theming */
 import {
   Provider as PaperProvider,
   DarkTheme as PaperDarkTheme,
