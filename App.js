@@ -1,17 +1,16 @@
 import * as React from "react";
-import { createStore, StoreProvider, useStoreActions } from "easy-peasy";
+import { createStore, StoreProvider, useStoreActions, persist } from "easy-peasy";
 
-import Root from "./Root";
+import Routes from './src/routes/Route';
 
-/** State Manager */
 import store from "./src/Store/model";
 
-const myStore = createStore(store);
+const myStore = createStore(persist(store));
 
 export default function App() {
   return (
     <StoreProvider store={myStore}>
-      <Root />
+      <Routes />
     </StoreProvider>
   );
 }
