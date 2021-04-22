@@ -7,8 +7,6 @@
     "test": "jest"
   },
   "dependencies": {
-    "@nozbe/watermelondb": "^0.16.0",
-    "@nozbe/with-observables": "^1.0.5",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "6.0.0",
     "@react-navigation/material-bottom-tabs": "^5.1.8",
