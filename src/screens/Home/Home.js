@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import * as React from "react";
 import {
   View,
   Text,
@@ -12,71 +12,99 @@ import {
 import { ActivityIndicator, Snackbar, Searchbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
 
-import Article from "./components/Article";
-import { getAllNews, getSearchedNews } from "../functions/newsController";
+import Article from "../components/Article";
+import { getAllNews, getSearchedNews } from "../../functions/newsController";
 import { ScrollView } from "react-native-gesture-handler";
 
+import styles from './Home.style';
+
 const Home = (props) => {
-  const [term, setterm] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
-  const [articles, setArticle] = useState([]);
-  const [articleCount, setArticleCount] = useState(0);
-  const [connectd, setconnectd] = useState(true);
+  const [term, setTerm] = React.useState("");
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [articles, setArticle] = React.useState([]);
+  const [articleCount, setArticleCount] = React.useState(0);
+  const [connected, setConnected] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState('');
 
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
+
   const onDownload = (data) => {
     setMessage('Article Downloaded');
     onToggleSnackBar();
   }
-  useEffect(() => {
+
+  React.useEffect(() => {
     getAllNews()
       .then((response) => {
-        // console.log(response.data.articles);
         setArticle(response.data.articles);
       })
       .catch();
   }, []);
+  
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getAllNews()
       .then((response) => {
-        // console.log(response.data.articles);
         setArticle(response.data.articles);
         setRefreshing(false);
       })
       .catch();
   }, [refreshing]);
+
+  React.useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (state.isConnected) {
+        setConnected(true);
+      }else {
+        setConnected(false);
+      }
+    });
+    return unsubscribe();
+  },[connected])
+
+  if (!connected) {
+    return (
+      <View style={styles.connected}>
+          <View>
+            <Text style={styles.connectedText}>Not Connected</Text>
+          </View>
+      </View>
+    )
+  }
+
   return (
     <SafeAreaView
-      style={{
-        flex: 1,
-        marginTop: 27,
-      }}
+      style={styles.container}
     >
-      <Searchbar
-        placeholder="Search"
-        onChangeText={(term) => setterm(term)}
-        value={term}
-        onFocus={() => props.navigation.navigate("Search")}
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 5},
-          shadowOpacity: 0.1,
-          shadowRadius: 10,
-          elevation: 10,
-          borderRadius: 50,
-          marginTop: 3,
-          color: '#fff',
-        }}
-      />
-      {connectd ? (
+        <View style={styles.header}>
+          <View>
+            <Text style={styles.headerText}>
+              Ultimate News
+            </Text>
+          </View>
+        </View>
+        <View style={styles.searchContainer}>
+          <Searchbar
+            placeholder="Search"
+            onChangeText={(term) => setTerm(term)}
+            value={term}
+            onFocus={() => props.navigation.navigate("Search")}
+            style={styles.search}
+          />
+        </View>
+        <View style={styles.weather}>
+          <View style={styles.iconContainer}>
+            <Text>Icon</Text>
+          </View>
+          <View>
+            <View><Text>Location</Text></View>
+            <View><Text>description</Text></View>
+          </View>
+        </View>
         <View
-          style={{
-            flex: -1,
-          }}
+          style={styles.listContainer}
         >
           <ScrollView
             refreshControl={
@@ -123,11 +151,6 @@ const Home = (props) => {
           </Snackbar>
           </View>
         </View>
-      ) : (
-        <View>
-          <Image source={require("../assets/no_internet.png")} />
-        </View>
-      )}
     </SafeAreaView>
   );
 };

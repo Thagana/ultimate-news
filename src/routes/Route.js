@@ -18,18 +18,19 @@ import {
 } from "react-native-paper";
 
 /** Screen */
-import HomeScreen from "./src/screens/Home";
-import SettingsScreen from "./src/screens/Settings";
-import LinkView from "./src/screens/LinkView";
-import SafeScreen from "./src/screens/SafeScreen";
+import HomeScreen from "../screens/Home/Home";
+import SettingsScreen from "../screens/Settings/Settings";
+import LinkView from "../screens/LinkView";
+import SafeScreen from "../screens/SafeScreen";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import SearchScreen from "./src/screens/SearchScreen";
+import SearchScreen from "../screens/SearchScreen";
+
 /** State Manager */
 import { useStoreActions, useStoreState } from "easy-peasy";
-import store from "./src/Store/model";
+import store from "../Store/model";
 
 /** Functions */
-import { Store } from "./src/functions/articleController";
+import { Store } from "../functions/articleController";
 
 /** RootHomeStack */
 const RootStack = createStackNavigator();
