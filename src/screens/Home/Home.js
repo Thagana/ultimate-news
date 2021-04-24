@@ -4,6 +4,7 @@ import {
   Text,
   SafeAreaView,
   RefreshControl,
+  FlatList,
 } from "react-native";
 import { ActivityIndicator, Snackbar, Searchbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
@@ -26,6 +27,8 @@ const Home = (props) => {
   const [weather, setWeather] = React.useState('');
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
+
+  const isRendered = React.useRef(false);
 
   const onDownload = (data) => {
     setMessage('Article Downloaded');
@@ -69,14 +72,22 @@ const Home = (props) => {
   }, [refreshing]);
 
   React.useEffect(() => {
+    isRendered.current = true;
     const unsubscribe = NetInfo.addEventListener(state => {
       if (state.isConnected) {
-        setConnected(true);
+        if (isRendered.current) {
+          setConnected(true);
+        }
       }else {
-        setConnected(false);
+        if (isRendered.current) {
+          setConnected(false);
+        }
       }
     });
-    return unsubscribe();
+    return () => {
+      unsubscribe();
+      isRendered.current = false;
+    };
   },[connected])
 
   if (!connected) {
@@ -93,96 +104,72 @@ const Home = (props) => {
     <SafeAreaView
       style={styles.container}
     >
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.headerText}>
-              Ultimate News
-            </Text>
-          </View>
-        </View>
-        <View style={styles.searchContainer}>
-          <Searchbar
-            placeholder="Search"
-            onChangeText={(term) => setTerm(term)}
-            value={term}
-            onFocus={() => props.navigation.navigate("Search")}
-            style={styles.search}
-          />
-        </View>
-        <View style={styles.weather}>
-          <View style={styles.iconContainer}>
-            <Image 
-              source={{ uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png` }} 
-              style={styles.weatherIcon} 
-              />
-          </View>
-          <View>
-            <View style={styles.temperatureHeader}>
-              <View style={styles.itemsHeader}>
-                <Text>
-                    {weather.temp} &deg;C
-                </Text>
-              </View>
-              <View style={styles.itemsHeader}>
-                <Text>
-                    {weather.location}
-                </Text>
-              </View>
-              <View style={styles.itemsHeader}>
-                <Text>
-                    {weather.minTemp} &deg;/{weather.maxTemp} &deg;
-                </Text>
-              </View>
-            </View>
-            <View><Text>{weather.description}</Text></View>
-          </View>
-        </View>
         <View
           style={styles.listContainer}
         >
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }
-          >
-            <View style={{ marginBottom: 5 }}>
-              {articles.length !== 0 ? (
-                articles.map((item, index) => {
-                  return (
-                    <Article
-                      key={index}
-                      source={item.source}
-                      author={item.author}
-                      image={item.urlToImage}
-                      publishedAt={item.publishedAt}
-                      title={item.title}
-                      description={item.description}
-                      url={item.url}
-                      navigation={props.navigation}
-                      onDownload={onDownload}
-                    />
-                  );
-                })
-              ) : (
-                <View
-                  style={{
-                    flex: 1,
-                    justifyContent: "center",
-                    alignContent: "center",
-                  }}
-                >
-                  <ActivityIndicator color="blue" size="large" />
-                </View>
-              )}
-            </View>
-          </ScrollView>
+            <FlatList
+              ListHeaderComponent={
+                <>
+                    <View style={styles.header}>
+                        <View>
+                          <Text style={styles.headerText}>
+                            Ultimate News
+                          </Text>
+                        </View>
+                      </View>
+                      <View style={styles.searchContainer}>
+                        <Searchbar
+                          placeholder="Search"
+                          onChangeText={(term) => setTerm(term)}
+                          value={term}
+                          onFocus={() => props.navigation.navigate("Search")}
+                          style={styles.search}
+                        />
+                      </View>
+                      <View style={styles.weather}>
+                        <View style={styles.iconContainer}>
+                          <Image 
+                            source={{ uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png` }} 
+                            style={styles.weatherIcon} 
+                            />
+                        </View>
+                        <View>
+                          <View style={styles.temperatureHeader}>
+                            <View style={styles.itemsHeader}>
+                              <Text>
+                                  {weather.temp} &deg;C
+                              </Text>
+                            </View>
+                            <View style={styles.itemsHeader}>
+                              <Text>
+                                  {weather.location}
+                              </Text>
+                            </View>
+                            <View style={styles.itemsHeader}>
+                              <Text>
+                                  {weather.minTemp} &deg;/{weather.maxTemp} &deg;
+                              </Text>
+                            </View>
+                          </View>
+                          <View><Text>{weather.description}</Text></View>
+                        </View>
+                    </View>
+                </>
+              }
+              data={articles}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
+              keyExtractor={(_, index) => index.toString()}
+            />
           <View>
-          <Snackbar
-            visible={visible}
-            onDismiss={onDismissSnackBar}
-            >
-            {message}
-          </Snackbar>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              >
+              {message}
+            </Snackbar>
           </View>
         </View>
     </SafeAreaView>
