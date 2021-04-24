@@ -7,6 +7,9 @@ import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
+import android.content.Intent; 
+import android.content.res.Configuration; 
+
 import expo.modules.splashscreen.SplashScreen;
 import expo.modules.splashscreen.SplashScreenImageResizeMode;
 

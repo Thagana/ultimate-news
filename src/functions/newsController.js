@@ -1,5 +1,4 @@
 import axios from "axios"
-import Constants from 'expo-constants';
 
 export const getAllNews = async () => {
     const COUNTRY = 'za';

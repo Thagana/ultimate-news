@@ -52,6 +52,17 @@ const style = StyleSheet.create({
     iconContainer: {
         padding: 10,
     },
+    temperatureHeader: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    weatherIcon: { 
+        width: 50, 
+        height: 50,
+    },
+    itemsHeader: {
+        marginHorizontal: 3
+    },
     listContainer: {
         flex: -1,
     }
