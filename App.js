@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createStore, StoreProvider, useStoreActions, persist } from "easy-peasy";
+import { createStore, StoreProvider, persist } from "easy-peasy";
 
 import Routes from './src/routes/Route';
 

@@ -2,31 +2,28 @@ import * as React from "react";
 import {
   View,
   Text,
-  Image,
   SafeAreaView,
-  Platform,
-  StatusBar,
-  FlatList,
   RefreshControl,
 } from "react-native";
 import { ActivityIndicator, Snackbar, Searchbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
-
-import Article from "../components/Article";
-import { getAllNews, getSearchedNews } from "../../functions/newsController";
 import { ScrollView } from "react-native-gesture-handler";
 
+
+import Article from "../../components/Articels/Article";
+import { getAllNews, getSearchedNews } from "../../functions/newsController";
+import { getWeather } from '../../functions/getWeather';
 import styles from './Home.style';
+import { Image } from "react-native";
 
 const Home = (props) => {
   const [term, setTerm] = React.useState("");
   const [refreshing, setRefreshing] = React.useState(false);
   const [articles, setArticle] = React.useState([]);
-  const [articleCount, setArticleCount] = React.useState(0);
   const [connected, setConnected] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState('');
-
+  const [weather, setWeather] = React.useState('');
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
 
@@ -41,8 +38,26 @@ const Home = (props) => {
         setArticle(response.data.articles);
       })
       .catch();
-  }, []);
+  }, [connected]);
   
+  React.useEffect(() => {
+    getWeather('Johannesburg')
+      .then(response => {
+        if (response) {
+          const icon = response.weather[0].icon
+          const temp = response.main.temp
+          const location = 'Johannesburg';
+          const minTemp = response.main.temp_min;
+          const maxTemp = response.main.temp_max;
+          const description = response.weather[0].description
+          setWeather({ icon, temp, location, maxTemp, minTemp, description });
+        }
+      })
+      .catch(error => {
+      console.log(error)
+     })
+  }, [connected])
+
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     getAllNews()
@@ -96,11 +111,30 @@ const Home = (props) => {
         </View>
         <View style={styles.weather}>
           <View style={styles.iconContainer}>
-            <Text>Icon</Text>
+            <Image 
+              source={{ uri: `https://openweathermap.org/img/wn/${weather.icon}@2x.png` }} 
+              style={styles.weatherIcon} 
+              />
           </View>
           <View>
-            <View><Text>Location</Text></View>
-            <View><Text>description</Text></View>
+            <View style={styles.temperatureHeader}>
+              <View style={styles.itemsHeader}>
+                <Text>
+                    {weather.temp} &deg;C
+                </Text>
+              </View>
+              <View style={styles.itemsHeader}>
+                <Text>
+                    {weather.location}
+                </Text>
+              </View>
+              <View style={styles.itemsHeader}>
+                <Text>
+                    {weather.minTemp} &deg;/{weather.maxTemp} &deg;
+                </Text>
+              </View>
+            </View>
+            <View><Text>{weather.description}</Text></View>
           </View>
         </View>
         <View

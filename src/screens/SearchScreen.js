@@ -5,7 +5,7 @@ import { SearchBar } from "react-native-elements";
 import NetInfo from "@react-native-community/netinfo";
 
 /** Component */
-import Article from "./components/Article";
+import Article from "../components/Articels";
 
 /** news API */
 import { getAllNews, getSearchedNews } from "../functions/newsController";

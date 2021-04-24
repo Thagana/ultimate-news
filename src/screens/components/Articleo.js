@@ -1,26 +1,93 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
-import { Avatar, Button, Card, Title, Paragraph } from "react-native-paper";
-import moment from "moment";
-import { AntDesign } from "@expo/vector-icons";
-
-/** State Manager */
+import { View, Text, TouchableOpacity, Share } from "react-native";
+import { Avatar, Card, Title, Paragraph } from "react-native-paper";
+import * as Linking from 'expo-linking';
+import * as FileSystem from "expo-file-system";
 import { useStoreActions, useStoreState } from "easy-peasy";
-
-/** Functions */
-import { Store } from "../../functions/articleController";
+import moment from "moment";
+import { Entypo } from "@expo/vector-icons";
+import { Manager, Store } from "../../functions/articleController";
 
 const LeftContent = (props) => <Avatar.Icon {...props} icon="account" />;
 
 const Article = (props) => {
-  const removeAlrticle = useStoreActions((action) => action.removeArticle);
+  const { onDownload, url } = props;
+  const addArt = useStoreActions((action) => action.addArticle);
   const isDarkMode = useStoreState((state) => state.isDarkMode);
+  const handleShare = async () => {
+    try {
+      const result = await Share.share({
+        message: `${props.title} | ${props.description} - ${props.url}`,
+      });
 
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          console.log('Shared with type')
+        } else {
+          console.log("Shared");
+        }
+      } else if (result.action === Share.dismissedAction) {
+        console.log("Closed");
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
+  const handleVisit = async () => {
+    Linking.openURL(url);
+  };
+
+  const donwloadFile = async (image) => {
+    if (image !== null) {
+      const fileUri = FileSystem.documentDirectory + Math.random() + ".jpg";
+      let downloadObject = FileSystem.createDownloadResumable(image, fileUri);
+      try {
+        let response = await downloadObject.downloadAsync();
+        if (response.status === 200) {
+          const Article = new Manager(
+            props.source.name,
+            props.title,
+            response.uri,
+            props.description,
+            props.author,
+            props.publishedAt
+          );
+          Store.addArticle(Article);
+          addArt(Article);
+        } else {
+          console.log("Something went wrong while downloading");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      const Article = new Manager(
+        props.source.name,
+        props.title,
+        null,
+        props.description,
+        props.author,
+        props.publishedAt
+      );
+      Store.addArticle(Article);
+      addArt(Article);
+    }
+  };
+
+  const handleSave = async () => {
+    try {
+      //Download Images and save path
+      await donwloadFile(props.image);
+      onDownload('Downloaded');
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Card style={{ margin: 5, borderRadius: 10 }}>
       <Card.Title
-        title={props.source}
-        subtitle={moment(props.dateAdded, "YYYYMMDD").fromNow()}
+        title={props.source.name}
+        subtitle={moment(props.publishedAt, "YYYYMMDD").fromNow()}
         left={LeftContent}
       />
       <Card.Content>
@@ -30,7 +97,7 @@ const Article = (props) => {
       <Card.Cover
         source={
           props.image === null
-            ? require("../../assets/no_internet.png")
+            ? require("../../assets/download.png")
             : { uri: props.image }
         }
       />
@@ -50,14 +117,26 @@ const Article = (props) => {
             <TouchableOpacity
               style={{ padding: 10 }}
               onPress={() => {
-                removeAlrticle(props.id);
+                handleShare();
               }}
             >
-              <AntDesign
-                name="delete"
-                size={25}
-                color={isDarkMode ? "#fff" : "#000"}
-              />
+              <Entypo name="share" size={25} color="#3498db" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10 }}
+              onPress={() => {
+                handleSave();
+              }}
+            >
+              <Entypo name="download" size={25} color="#3498db" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ padding: 10 }}
+              onPress={() => {
+                handleVisit();
+              }}
+            >
+              <Entypo name="globe" size={25} color="#3498db" />
             </TouchableOpacity>
           </View>
           <View
