@@ -9,7 +9,7 @@ import {
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-
+import { Ionicons } from '@expo/vector-icons';
 /** Theming */
 import {
   Provider as PaperProvider,
@@ -115,14 +115,16 @@ const SafeStackScreen = () => {
 const Tab = createMaterialBottomTabNavigator();
 const TabScreen = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      barStyle={{ backgroundColor: '#ffff' }}
+    >
       <Tab.Screen
         name="Feed"
         component={RootStackScreen}
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <Ionicons name="ios-home-outline" size={24} color={color} />
           ),
         }}
       />
