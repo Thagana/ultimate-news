@@ -12,8 +12,9 @@ import ImageView from '../ImageView';
 
 import styles from './Article.style';
 
-const Article = (props) => {
-  const { onDownload, url, image, headerText, header, title, description, source } = props;
+const Article = ({ item, onDownload }) => {
+  const { url, urlToImage, title, description, source, publishedAt } = item;
+
   const addArt = useStoreActions((action) => action.addArticle);
   const handleShare = async () => {
     try {
@@ -34,6 +35,7 @@ const Article = (props) => {
       alert(error.message);
     }
   };
+
   const handleVisit = async () => {
     Linking.openURL(url);
   };
@@ -46,12 +48,12 @@ const Article = (props) => {
         let response = await downloadObject.downloadAsync();
         if (response.status === 200) {
           const Article = new Manager(
-            props.source.name,
-            props.title,
+            source.name,
+            title,
             response.uri,
-            props.description,
-            props.author,
-            props.publishedAt
+            description,
+            author,
+            publishedAt
           );
           Store.addArticle(Article);
           addArt(Article);
@@ -63,12 +65,12 @@ const Article = (props) => {
       }
     } else {
       const Article = new Manager(
-        props.source.name,
-        props.title,
+        source.name,
+        title,
         null,
-        props.description,
-        props.author,
-        props.publishedAt
+        description,
+        author,
+        publishedAt
       );
       Store.addArticle(Article);
       addArt(Article);
@@ -77,7 +79,7 @@ const Article = (props) => {
 
   const handleSave = async () => {
     try {
-      await downloadFile(image);
+      await downloadFile(urlToImage);
       onDownload('Downloaded');
     } catch (error) {
       console.log(error);
@@ -86,7 +88,7 @@ const Article = (props) => {
   return (
       <View style={styles.card}>
         <View style={styles.imageContainer}>
-          <ImageView image={image} />
+          <ImageView image={urlToImage} />
         </View>
         <View style={styles.header}>
           <Text style={styles.headerText}>
@@ -100,7 +102,7 @@ const Article = (props) => {
         </View>
         <View style={styles.footer}>
           <View>
-            <Text>{source.name} - {moment(props.publishedAt, "YYYYMMDD").fromNow()}</Text>
+            <Text>{source.name} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
           </View>
           <View style={styles.iconContainer}>
             <TouchableOpacity 
