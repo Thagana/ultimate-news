@@ -1,31 +1,26 @@
 {
+  "name": "ultimatenews",
+  "displayName": "ultimatenews",
+  "expo": {
     "name": "ultimatenews",
-    "displayName": "ultimatenews",
-    "expo": {
-      "name": "ultimatenews",
-      "slug": "ultimatenews",
-      "icon": {
-        "mipmap-mdpi": "src/assets/mipmao-dpi/ic_launcher.png",
-        "mipmap-xhdpi": "src/assets/mipmap-xhdpi/ic_launcher.png",
-        "mipmap-xxhddpi": "src/assets/mipmap-xxhddpi/ic_launcher.png",
-        "mipmap-xxxhddpi": "src/assets/mipmap-xxxhddpi/ic_launcher.png"
-      },
-      "version": "1.0.0",
-      "platforms": [
-        "ios",
-        "android",
-        "web"
-      ],
-      "assetBundlePatterns": [
-        "src/assets/images/*"
-      ],
-      "extra": {
-        "G_NEWS_TOKEN": ""
-      },
-      "android": {
-          "package": "com.leumasco.ultimatenews",
-          "versionCode": 1
-      }
+    "slug": "ultimatenews",
+    "userInterfaceStyle": "automatic",
+    "icon": "src/assets/ic_launcher.png",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "src/assets/images/*"
+    ],
+    "extra": {
+      "G_NEWS_TOKEN": ""
+    },
+    "android": {
+        "package": "com.leumasco.ultimatenews",
+        "versionCode": 1
     }
   }
-  
+}
