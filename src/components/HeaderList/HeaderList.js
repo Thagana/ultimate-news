@@ -1,5 +1,6 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, Image } from 'react-native'
+import { Searchbar } from "react-native-paper";
 
 import styles from './Header.style';
 

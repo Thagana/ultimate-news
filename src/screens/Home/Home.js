@@ -6,7 +6,7 @@ import {
   RefreshControl,
   FlatList,
 } from "react-native";
-import { Snackbar, Searchbar } from "react-native-paper";
+import { Snackbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
 
 import Article from "../../components/Articels/Article";
