@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import * as React from 'react';
 import { View, Text } from 'react-native'
 import { DeckSwiper} from 'native-base';
+
 /** State Manager */
 import { useStoreState } from 'easy-peasy';
-import { Store } from '../functions/articleController';
 
 
 /** Components */
 import Article from './components/Articleo';
 import NoArticle from './components/Noarticle';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const SafeScreen = () => {
     const articles = useStoreState(state => state.articles);
-    useEffect(() => {
-        
-    },[])
     return (
         <View style={{ flex: 1 }}>
             <View

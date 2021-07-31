@@ -6,13 +6,11 @@ import {
   RefreshControl,
   FlatList,
 } from "react-native";
-import { ActivityIndicator, Snackbar, Searchbar } from "react-native-paper";
+import { Snackbar, Searchbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
-import { ScrollView } from "react-native-gesture-handler";
-
 
 import Article from "../../components/Articels/Article";
-import { getAllNews, getSearchedNews } from "../../functions/newsController";
+import { getAllNews } from "../../functions/newsController";
 import { getWeather } from '../../functions/getWeather';
 import styles from './Home.style';
 import { Image } from "react-native";
@@ -25,26 +23,34 @@ const Home = (props) => {
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState('');
   const [weather, setWeather] = React.useState('');
+
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
 
-  const isRendered = React.useRef(false);
+  const mounted = React.useRef(true);
 
   const onDownload = (data) => {
     setMessage('Article Downloaded');
     onToggleSnackBar();
   }
 
-  React.useEffect(() => {
-    getAllNews()
-      .then((response) => {
-        setArticle(response.data.articles);
-      })
-      .catch();
-  }, [connected]);
+  const fetchNews = async () => {
+    try {
+      if (connected) {
+        const response = await getAllNews();
+        const articles = response.data.articles;
+        if(mounted){
+          setArticle(articles);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } 
   
   React.useEffect(() => {
-    getWeather('Johannesburg')
+    if(connected){
+      getWeather('Johannesburg')
       .then(response => {
         if (response) {
           const icon = response.weather[0].icon
@@ -53,42 +59,58 @@ const Home = (props) => {
           const minTemp = response.main.temp_min;
           const maxTemp = response.main.temp_max;
           const description = response.weather[0].description
-          setWeather({ icon, temp, location, maxTemp, minTemp, description });
+
+          if(mounted.current){
+            setWeather({ icon, temp, location, maxTemp, minTemp, description });
+          }
+
         }
       })
       .catch(error => {
       console.log(error)
      })
+    }
   }, [connected])
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    getAllNews()
-      .then((response) => {
-        setArticle(response.data.articles);
+  const onRefresh = React.useCallback(async () => {
+    try {
+      setRefreshing(true);
+      if (connected) {
+        const response = await getAllNews();
+        const articles = response.data.articles;
+        setArticle(articles);
         setRefreshing(false);
-      })
-      .catch();
+      }
+    } catch (error) {
+      console.log(error);
+      setRefreshing(false);
+    }
   }, [refreshing]);
 
   React.useEffect(() => {
-    isRendered.current = true;
     const unsubscribe = NetInfo.addEventListener(state => {
-      if (state.isConnected) {
-        if (isRendered.current) {
-          setConnected(true);
-        }
-      }else {
-        if (isRendered.current) {
-          setConnected(false);
+      if(mounted.current){
+        if (state.isConnected) {
+            setConnected(true);
+        }else {
+            setConnected(false);
         }
       }
     });
     return () => {
       unsubscribe();
-      isRendered.current = false;
     };
   },[connected])
+
+  React.useEffect(() => {
+    fetchNews();
+  }, [connected]);
+
+  React.useEffect(() => {
+    return () => {
+      mounted.current = false;
+    }
+  }, [])
 
   if (!connected) {
     return (

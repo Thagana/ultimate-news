@@ -2,9 +2,8 @@ import React from "react";
 import { View, Text, TouchableOpacity, Share, Image } from "react-native";
 import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
-import { useStoreActions, useStoreState } from "easy-peasy";
+import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
-import { SimpleLineIcons } from '@expo/vector-icons';
 import moment from "moment";
 import { Manager, Store } from "../../functions/articleController";
 
@@ -87,9 +86,9 @@ const Article = ({ item, onDownload }) => {
   };
   return (
       <View style={styles.card}>
-        <View style={styles.imageContainer}>
+        <TouchableOpacity style={styles.imageContainer}>
           <ImageView image={urlToImage} />
-        </View>
+        </TouchableOpacity>
         <View style={styles.header}>
           <Text style={styles.headerText}>
             {title}
@@ -105,16 +104,6 @@ const Article = ({ item, onDownload }) => {
             <Text>{source.name} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
           </View>
           <View style={styles.iconContainer}>
-            <TouchableOpacity 
-                style={styles.icon}
-                activeOpacity={0.8}
-                >
-              <AntDesign
-                name="hearto" 
-                size={24} 
-                color="black" 
-                />
-            </TouchableOpacity>
             <TouchableOpacity 
                 style={styles.icon}
                 activeOpacity={0.8}

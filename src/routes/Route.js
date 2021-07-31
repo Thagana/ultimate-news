@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Platform, StyleSheet, Text, View, Alert } from "react-native";
-import { useKeepAwake } from "expo-keep-awake";
+import { Alert } from "react-native";
 import {
   NavigationContainer,
   DefaultTheme as NavigationDefaultTheme,
@@ -10,6 +9,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
+
 /** Theming */
 import {
   Provider as PaperProvider,
@@ -19,7 +19,6 @@ import {
 
 /** Screen */
 import HomeScreen from "../screens/Home/Home";
-import SettingsScreen from "../screens/Settings/Settings";
 import LinkView from "../screens/LinkView";
 import SafeScreen from "../screens/SafeScreen";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -27,7 +26,6 @@ import SearchScreen from "../screens/SearchScreen";
 
 /** State Manager */
 import { useStoreActions, useStoreState } from "easy-peasy";
-import store from "../Store/model";
 
 /** Functions */
 import { Store } from "../functions/articleController";
@@ -41,21 +39,6 @@ const RootStackScreen = () => {
       <RootStack.Screen name="Article" component={LinkView} />
       <RootStack.Screen name="Search" component={SearchScreen} />
     </RootStack.Navigator>
-  );
-};
-
-const SettingStack = createStackNavigator();
-const SettingStackScreeen = () => {
-  return (
-    <SettingStack.Navigator>
-      <SettingStack.Screen
-        name="Settings"
-        component={SettingsScreen}
-        options={{
-          title: "Ultimate News",
-        }}
-      />
-    </SettingStack.Navigator>
   );
 };
 
