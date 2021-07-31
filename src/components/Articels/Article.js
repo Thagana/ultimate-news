@@ -1,10 +1,12 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Share, Image } from "react-native";
+import { View, Text, TouchableOpacity, Share } from "react-native";
 import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
 import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
 import moment from "moment";
+import * as WebBrowser from 'expo-web-browser';
+
 import { Manager, Store } from "../../functions/articleController";
 
 import ImageView from '../ImageView';
@@ -76,6 +78,10 @@ const Article = ({ item, onDownload }) => {
     }
   };
 
+  const handleLinkNavigation = async (link) => {
+    await WebBrowser.openBrowserAsync(link);
+  }
+
   const handleSave = async () => {
     try {
       await downloadFile(urlToImage);
@@ -84,9 +90,12 @@ const Article = ({ item, onDownload }) => {
       console.log(error);
     }
   };
+
   return (
       <View style={styles.card}>
-        <TouchableOpacity style={styles.imageContainer}>
+        <TouchableOpacity style={styles.imageContainer} onPress={() => {
+          handleLinkNavigation(urlToImage);
+        }}>
           <ImageView image={urlToImage} />
         </TouchableOpacity>
         <View style={styles.header}>

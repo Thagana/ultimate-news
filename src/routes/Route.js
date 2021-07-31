@@ -2,8 +2,6 @@ import * as React from "react";
 import { Alert } from "react-native";
 import {
   NavigationContainer,
-  DefaultTheme as NavigationDefaultTheme,
-  DarkTheme as NavigationDarkTheme,
 } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
@@ -13,8 +11,6 @@ import { Ionicons } from '@expo/vector-icons';
 /** Theming */
 import {
   Provider as PaperProvider,
-  DarkTheme as PaperDarkTheme,
-  DefaultTheme as PaperDefaultTheme,
 } from "react-native-paper";
 
 /** Screen */
@@ -129,18 +125,9 @@ const TabScreen = () => {
   );
 };
 
-const CombinedDefaultTheme = {
-  ...PaperDefaultTheme,
-  ...NavigationDefaultTheme,
-};
-const CombinedDarkTheme = { ...PaperDarkTheme, ...NavigationDarkTheme };
-
 export default function App() {
-  const isDarkMode = useStoreState((state) => state.isDarkMode);
-  const theme = isDarkMode ? CombinedDarkTheme : CombinedDefaultTheme;
-
   return (
-    <PaperProvider>
+    <PaperProvider >
       <NavigationContainer>
         <TabScreen />
       </NavigationContainer>
