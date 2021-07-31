@@ -15,8 +15,6 @@ import {
 
 /** Screen */
 import HomeScreen from "../screens/Home/Home";
-import LinkView from "../screens/LinkView";
-import SafeScreen from "../screens/SafeScreen";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import SearchScreen from "../screens/SearchScreen";
 
@@ -33,7 +31,6 @@ const RootStackScreen = () => {
   return (
     <RootStack.Navigator headerMode="none">
       <RootStack.Screen name="Ultimate News" component={HomeScreen} />
-      <RootStack.Screen name="Article" component={LinkView} />
       <RootStack.Screen name="Search" component={SearchScreen} />
     </RootStack.Navigator>
   );
@@ -48,7 +45,7 @@ const SafeStackScreen = () => {
     <SafeStack.Navigator>
       <SafeStack.Screen
         name="Saved"
-        component={SafeScreen}
+        component={SavedArticles}
         options={{
           headerRight: () => {
             return (
@@ -110,7 +107,7 @@ const TabScreen = () => {
       />
       <Tab.Screen
         name="Saved"
-        component={SavedArticles}
+        component={SafeStackScreen}
         options={{
           tabBarLabel: "Saved",
           tabBarIcon: ({ color }) => (

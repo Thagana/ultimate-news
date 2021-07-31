@@ -14,9 +14,8 @@ import ImageView from '../ImageView';
 import styles from './Article.style';
 
 const Article = ({ item, onDownload }) => {
-  const { url, urlToImage, title, description, source, publishedAt } = item;
+  const { url, urlToImage, title, description, source, publishedAt, author } = item;
 
-  const addArt = useStoreActions((action) => action.addArticle);
   const handleShare = async () => {
     try {
       const result = await Share.share({
@@ -52,8 +51,7 @@ const Article = ({ item, onDownload }) => {
             author,
             publishedAt
           );
-          Store.addArticle(Article);
-          addArt(Article);
+          await Store.addArticle(Article);
         } else {
           console.log("Something went wrong while downloading");
         }
@@ -69,8 +67,7 @@ const Article = ({ item, onDownload }) => {
         author,
         publishedAt
       );
-      Store.addArticle(Article);
-      addArt(Article);
+      await Store.addArticle(Article);
     }
   };
 

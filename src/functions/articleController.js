@@ -1,6 +1,4 @@
-import { AsyncStorage } from 'react-native';
-// import { v4 as uuidv4 } from 'uuid';
-
+import AsyncStorage  from '@react-native-async-storage/async-storage';
 export class Manager{
     constructor(source, title, image, description, author, datePosted){
         this.id = Math.random();
