@@ -37,10 +37,6 @@ const Article = ({ item, onDownload }) => {
     }
   };
 
-  const handleVisit = async () => {
-    Linking.openURL(url);
-  };
-
   const downloadFile = async (image) => {
     if (image !== null) {
       const fileUri = FileSystem.documentDirectory + Math.random() + ".jpg";
@@ -94,7 +90,7 @@ const Article = ({ item, onDownload }) => {
   return (
       <View style={styles.card}>
         <TouchableOpacity style={styles.imageContainer} onPress={() => {
-          handleLinkNavigation(urlToImage);
+          handleLinkNavigation(url);
         }}>
           <ImageView image={urlToImage} />
         </TouchableOpacity>

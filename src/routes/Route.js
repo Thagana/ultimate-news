@@ -25,6 +25,7 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 
 /** Functions */
 import { Store } from "../functions/articleController";
+import SavedArticles from "../screens/SavedArticle";
 
 /** RootHomeStack */
 const RootStack = createStackNavigator();
@@ -109,7 +110,7 @@ const TabScreen = () => {
       />
       <Tab.Screen
         name="Saved"
-        component={SafeStackScreen}
+        component={SavedArticles}
         options={{
           tabBarLabel: "Saved",
           tabBarIcon: ({ color }) => (

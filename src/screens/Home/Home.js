@@ -6,14 +6,12 @@ import {
   RefreshControl,
   FlatList,
 } from "react-native";
-import { Snackbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
 
 import Article from "../../components/Articels/Article";
 import { getAllNews } from "../../functions/newsController";
 import { getWeather } from '../../functions/getWeather';
 import styles from './Home.style';
-import { Image } from "react-native";
 import HeaderList from "../../components/HeaderList/HeaderList";
 
 const Home = (props) => {
@@ -25,7 +23,6 @@ const Home = (props) => {
   const [message, setMessage] = React.useState('');
   const [weather, setWeather] = React.useState('');
 
-  const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
 
   const mounted = React.useRef(true);
@@ -139,14 +136,6 @@ const Home = (props) => {
               renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
               keyExtractor={(_, index) => index.toString()}
             />
-          <View>
-            <Snackbar
-              visible={visible}
-              onDismiss={onDismissSnackBar}
-              >
-              {message}
-            </Snackbar>
-          </View>
         </View>
     </SafeAreaView>
   );
