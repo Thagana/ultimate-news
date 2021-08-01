@@ -8,11 +8,17 @@ import {
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 
+// components
 import Article from "../../components/Articels/Article";
+import HeaderList from "../../components/HeaderList/HeaderList";
+
+// styles
+import styles from './Home.style';
+
+// function
 import { getAllNews } from "../../functions/newsController";
 import { getWeather } from '../../functions/getWeather';
-import styles from './Home.style';
-import HeaderList from "../../components/HeaderList/HeaderList";
+
 
 const Home = (props) => {
   const [term, setTerm] = React.useState("");
@@ -24,7 +30,6 @@ const Home = (props) => {
   const [weather, setWeather] = React.useState('');
 
   const onToggleSnackBar = () => setVisible(!visible);
-
   const mounted = React.useRef(true);
 
   const onDownload = (data) => {
@@ -47,7 +52,7 @@ const Home = (props) => {
   } 
   
   React.useEffect(() => {
-    if(connected){
+    if (connected) {
       getWeather('Johannesburg')
       .then(response => {
         if (response) {
@@ -61,7 +66,6 @@ const Home = (props) => {
           if(mounted.current){
             setWeather({ icon, temp, location, maxTemp, minTemp, description });
           }
-
         }
       })
       .catch(error => {
@@ -133,7 +137,7 @@ const Home = (props) => {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
+              renderItem={({item}) => <Article item={item} onDownload={onDownload} downloaded={false} />}
               keyExtractor={(_, index) => index.toString()}
             />
         </View>
