@@ -4,7 +4,7 @@ import {
   NavigationContainer,
 } from "@react-navigation/native";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 
 /** Theming */
@@ -16,6 +16,7 @@ import {
 // Routes
 import HomeRoutes from './HomeRoutes';
 import SavedRoutes from './SavedRoutes'
+import SupportRoutes from './SupportRoutes';
 
 const Tab = createMaterialBottomTabNavigator();
 const TabScreen = () => {
@@ -47,6 +48,17 @@ const TabScreen = () => {
           ),
         }}
       />
+      <Tab.Screen name="Support" 
+          component={SupportRoutes} options={{
+          tabBarLabel: "Support",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome
+              name="support"
+              color={color}
+              size={26}
+            />
+          ),
+        }}/>
     </Tab.Navigator>
   );
 };
