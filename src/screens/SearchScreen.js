@@ -5,10 +5,10 @@ import { SearchBar } from "react-native-elements";
 import NetInfo from "@react-native-community/netinfo";
 
 /** Component */
-import Article from "../../components/Articels";
+import Article from "../components/Articels";
 
 /** news API */
-import { getSearchedNews } from "../../functions/newsController";
+import { getAllNews, getSearchedNews } from "../functions/newsController";
 import { ScrollView } from "react-native-gesture-handler";
 
 const Home = (props) => {

@@ -1,37 +1,49 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Share } from "react-native";
+import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
 import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
 import moment from "moment";
 import * as WebBrowser from 'expo-web-browser';
 
-import { Manager } from "../../functions/articleController";
+import { Manager, Store } from "../../functions/articleController";
 
 import ImageView from '../ImageView';
 
 import styles from './Article.style';
-import getMimeType from "../../utils/getMimeType";
 
-const Article = ({ item, downloaded }) => {
-  const { url, urlToImage, title, description, source, publishedAt, author, name: filename } = item;
-  const addArticle = useStoreActions((actions) => actions.addArticle);
+const Article = ({ item, onDownload }) => {
+  const { url, urlToImage, title, description, source, publishedAt } = item;
 
+  const addArt = useStoreActions((action) => action.addArticle);
   const handleShare = async () => {
     try {
-      await Share.share({
+      const result = await Share.share({
         message: `${title} | ${description} - ${url}`,
       });
+
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          console.log('Shared with type')
+        } else {
+          console.log("Shared");
+        }
+      } else if (result.action === Share.dismissedAction) {
+        console.log("Closed");
+      }
     } catch (error) {
       alert(error.message);
     }
   };
 
+  const handleVisit = async () => {
+    Linking.openURL(url);
+  };
+
   const downloadFile = async (image) => {
     if (image !== null) {
-      const last = getMimeType(image);
-      const name = Math.random() + '.' + last
-      const fileUri = FileSystem.documentDirectory + name;
+      const fileUri = FileSystem.documentDirectory + Math.random() + ".jpg";
       let downloadObject = FileSystem.createDownloadResumable(image, fileUri);
       try {
         let response = await downloadObject.downloadAsync();
@@ -42,10 +54,12 @@ const Article = ({ item, downloaded }) => {
             response.uri,
             description,
             author,
-            publishedAt,
-            name
+            publishedAt
           );
-          addArticle(Article);
+          Store.addArticle(Article);
+          addArt(Article);
+        } else {
+          console.log("Something went wrong while downloading");
         }
       } catch (error) {
         console.log(error);
@@ -59,7 +73,8 @@ const Article = ({ item, downloaded }) => {
         author,
         publishedAt
       );
-      addArticle(Article);
+      Store.addArticle(Article);
+      addArt(Article);
     }
   };
 
@@ -70,6 +85,7 @@ const Article = ({ item, downloaded }) => {
   const handleSave = async () => {
     try {
       await downloadFile(urlToImage);
+      onDownload('Downloaded');
     } catch (error) {
       console.log(error);
     }
@@ -78,9 +94,9 @@ const Article = ({ item, downloaded }) => {
   return (
       <View style={styles.card}>
         <TouchableOpacity style={styles.imageContainer} onPress={() => {
-          handleLinkNavigation(url);
+          handleLinkNavigation(urlToImage);
         }}>
-          <ImageView image={urlToImage} downloaded={downloaded} name={filename}/>
+          <ImageView image={urlToImage} />
         </TouchableOpacity>
         <View style={styles.header}>
           <Text style={styles.headerText}>
@@ -92,29 +108,27 @@ const Article = ({ item, downloaded }) => {
             {description}
           </Text>
         </View>
-        {!downloaded && (
-            <View style={styles.footer}>
-                <View>
-                  <Text>{source.name} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
-                </View>
-                <View style={styles.iconContainer}>
-                  <TouchableOpacity 
-                      style={styles.icon}
-                      activeOpacity={0.8}
-                      onPress={handleShare}
-                      >
-                    <AntDesign name="sharealt" size={24} color="black" />
-                  </TouchableOpacity>
-                  <TouchableOpacity 
-                      style={styles.icon}
-                      activeOpacity={0.8}
-                      onPress={handleSave}
-                      >
-                    <AntDesign name="download" size={24} color="black" />
-                  </TouchableOpacity>
-                </View>
-              </View>
-          )}
+        <View style={styles.footer}>
+          <View>
+            <Text>{source.name} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
+          </View>
+          <View style={styles.iconContainer}>
+            <TouchableOpacity 
+                style={styles.icon}
+                activeOpacity={0.8}
+                onPress={handleShare}
+                >
+              <AntDesign name="sharealt" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={styles.icon}
+                activeOpacity={0.8}
+                onPress={handleSave}
+                >
+              <AntDesign name="download" size={24} color="black" />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
   );
 };

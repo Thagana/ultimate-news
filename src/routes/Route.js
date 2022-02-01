@@ -3,8 +3,9 @@ import { Alert } from "react-native";
 import {
   NavigationContainer,
 } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { MaterialCommunityIcons, FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 
 /** Theming */
@@ -12,11 +13,83 @@ import {
   Provider as PaperProvider,
 } from "react-native-paper";
 
+/** Screen */
+import HomeScreen from "../screens/Home/Home";
+import LinkView from "../screens/LinkView";
+import SafeScreen from "../screens/SafeScreen";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import SearchScreen from "../screens/SearchScreen";
 
-// Routes
-import HomeRoutes from './HomeRoutes';
-import SavedRoutes from './SavedRoutes'
-import SupportRoutes from './SupportRoutes';
+/** State Manager */
+import { useStoreActions, useStoreState } from "easy-peasy";
+
+/** Functions */
+import { Store } from "../functions/articleController";
+
+/** RootHomeStack */
+const RootStack = createStackNavigator();
+const RootStackScreen = () => {
+  return (
+    <RootStack.Navigator headerMode="none">
+      <RootStack.Screen name="Ultimate News" component={HomeScreen} />
+      <RootStack.Screen name="Article" component={LinkView} />
+      <RootStack.Screen name="Search" component={SearchScreen} />
+    </RootStack.Navigator>
+  );
+};
+
+const SafeStack = createStackNavigator();
+const SafeStackScreen = () => {
+  const removeAll = useStoreActions((action) => action.removeAllArticles);
+  const isDarkMode = useStoreState((state) => state.isDarkMode);
+
+  return (
+    <SafeStack.Navigator>
+      <SafeStack.Screen
+        name="Saved"
+        component={SafeScreen}
+        options={{
+          headerRight: () => {
+            return (
+              <TouchableOpacity
+                style={{
+                  padding: 5,
+                }}
+                onPress={() => {
+                  Alert.alert(
+                    "Delete all",
+                    "You are about to delete all saved articles",
+                    [
+                      {
+                        text: "Cancel",
+                        onPress: () => console.log("Cancel Pressed"),
+                        style: "cancel",
+                      },
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          Store.removeAllArticles();
+                          removeAll();
+                        },
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="trash-can-outline"
+                  size={30}
+                  color={isDarkMode ? "#fff" : "#000"}
+                />
+              </TouchableOpacity>
+            );
+          },
+        }}
+      />
+    </SafeStack.Navigator>
+  );
+};
 
 const Tab = createMaterialBottomTabNavigator();
 const TabScreen = () => {
@@ -26,7 +99,7 @@ const TabScreen = () => {
     >
       <Tab.Screen
         name="Feed"
-        component={HomeRoutes}
+        component={RootStackScreen}
         options={{
           tabBarLabel: "Feed",
           tabBarIcon: ({ color }) => (
@@ -36,7 +109,7 @@ const TabScreen = () => {
       />
       <Tab.Screen
         name="Saved"
-        component={SavedRoutes}
+        component={SafeStackScreen}
         options={{
           tabBarLabel: "Saved",
           tabBarIcon: ({ color }) => (
@@ -48,17 +121,6 @@ const TabScreen = () => {
           ),
         }}
       />
-      <Tab.Screen name="Support" 
-          component={SupportRoutes} options={{
-          tabBarLabel: "Support",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="support"
-              color={color}
-              size={26}
-            />
-          ),
-        }}/>
     </Tab.Navigator>
   );
 };
