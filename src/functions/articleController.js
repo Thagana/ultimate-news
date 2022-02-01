@@ -1,16 +1,15 @@
-import { AsyncStorage } from 'react-native';
-// import { v4 as uuidv4 } from 'uuid';
-
+import AsyncStorage  from '@react-native-async-storage/async-storage';
 export class Manager{
-    constructor(source, title, image, description, author, datePosted){
+    constructor(source, title, image, description, author, publishedAt, name){
         this.id = Math.random();
         this.source = source;
         this.image =  image;
         this.description = description;
         this.dateAdded = Date.now();
-        this.datePosted = datePosted;
+        this.publishedAt = publishedAt;
         this.author = author;
         this.title = title
+        this.name = name;
     }
 }
 
