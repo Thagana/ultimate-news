@@ -6,19 +6,15 @@ import {
   RefreshControl,
   FlatList,
 } from "react-native";
+import { Snackbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
 
-// components
 import Article from "../../components/Articels/Article";
-import HeaderList from "../../components/HeaderList/HeaderList";
-
-// styles
-import styles from './Home.style';
-
-// function
 import { getAllNews } from "../../functions/newsController";
 import { getWeather } from '../../functions/getWeather';
-
+import styles from './Home.style';
+import { Image } from "react-native";
+import HeaderList from "../../components/HeaderList/HeaderList";
 
 const Home = (props) => {
   const [term, setTerm] = React.useState("");
@@ -29,7 +25,9 @@ const Home = (props) => {
   const [message, setMessage] = React.useState('');
   const [weather, setWeather] = React.useState('');
 
+  const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
+
   const mounted = React.useRef(true);
 
   const onDownload = (data) => {
@@ -52,7 +50,7 @@ const Home = (props) => {
   } 
   
   React.useEffect(() => {
-    if (connected) {
+    if(connected){
       getWeather('Johannesburg')
       .then(response => {
         if (response) {
@@ -66,6 +64,7 @@ const Home = (props) => {
           if(mounted.current){
             setWeather({ icon, temp, location, maxTemp, minTemp, description });
           }
+
         }
       })
       .catch(error => {
@@ -137,9 +136,17 @@ const Home = (props) => {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              renderItem={({item}) => <Article item={item} onDownload={onDownload} downloaded={false} />}
+              renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
               keyExtractor={(_, index) => index.toString()}
             />
+          <View>
+            <Snackbar
+              visible={visible}
+              onDismiss={onDismissSnackBar}
+              >
+              {message}
+            </Snackbar>
+          </View>
         </View>
     </SafeAreaView>
   );
