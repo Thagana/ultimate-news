@@ -127,3 +127,5 @@ buck-out/
 # Expo
 .expo/*
 web-build/
+
+*.code-workspace
