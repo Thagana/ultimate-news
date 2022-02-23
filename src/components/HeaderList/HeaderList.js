@@ -11,7 +11,7 @@ export default function HeaderList(props) {
         <View style={styles.header}>
             <View>
               <Text style={styles.headerText}>
-                Ultimate News
+                U-News
               </Text>
             </View>
           </View>
