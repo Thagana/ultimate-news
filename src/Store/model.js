@@ -1,6 +1,17 @@
-import { action } from 'easy-peasy';
+import { action, thunk } from 'easy-peasy';
+import axios from 'axios';
 
 export default {
+    /* AUTHENTICATION */
+    isAuth: false,
+    token: '',
+    setAuthenticated: action((state, payload) => {
+        state.isAuth = true;
+        state.token = payload;
+    }),
+    /* SETTINGS */
+    location: 'Johannesburg',
+    /* AUTHENTICATION */
     isDarkMode: false,
     articles: [],
     isLocal: true,

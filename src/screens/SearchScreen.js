@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, SafeAreaView } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
 import { SearchBar } from "react-native-elements";
 import NetInfo from "@react-native-community/netinfo";
 
@@ -14,8 +13,6 @@ import { ScrollView } from "react-native-gesture-handler";
 const Home = (props) => {
   const [term, setterm] = useState("");
   const [articles, setArticle] = useState([]);
-  const [articleCount, setArticleCount] = useState(0);
-  const [connectd, setconnectd] = useState(true);
 
   const searchNews = async() => {
     try {
