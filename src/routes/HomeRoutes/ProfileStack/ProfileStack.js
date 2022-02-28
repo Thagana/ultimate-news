@@ -1,66 +1,16 @@
-import * as React from 'react'
-import { View, Text } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { Ionicons } from '@expo/vector-icons';
+import * as React from "react";
+import { createStackNavigator } from "@react-navigation/stack";
 
+import Profile from '../../../screens/Profile'
 
-import styles from './ProfileStack.style'
+const ProfileStack = createStackNavigator();
 
-export default function ProfileStack() {
-  return (
-    <View style={styles.container}>
-        <TouchableOpacity style={styles.listItem} onPress={() => {}}>
-            <View style={styles.rowItems}>
-                <View style={styles.icons}>
-                    <Ionicons name="language" size={20} color="#000" />
-                </View>
-                <View style={styles.showText}>
-                    <Text>Language</Text>
-                </View>
-            </View>
-            <View style={styles.rowAction}>
-                <Ionicons name="arrow-forward" size={20} color="#000" />
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem} onPress={() => {}}>
-            <View style={styles.rowItems}>
-                <View style={styles.icons}>
-                    <Ionicons name="location-outline" size={20} color="#000" />
-                </View>
-                <View style={styles.showText}>
-                    <Text>Location</Text>
-                </View>
-            </View>
-            <View style={styles.rowAction}>
-                <Ionicons name="arrow-forward" size={20} color="#000" />
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem} onPress={() => {}}>
-            <View style={styles.rowItems}>
-                <View style={styles.icons}>
-                    <Ionicons name="settings-outline" size={20} color="#000" />
-                </View>
-                <View style={styles.showText}>
-                    <Text>News Settings</Text>
-                </View>
-            </View>
-            <View style={styles.rowAction}>
-                <Ionicons name="arrow-forward" size={20} color="#000" />
-            </View>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.listItem} onPress={() => {}}>
-            <View style={styles.rowItems}>
-                <View style={styles.icons}>
-                    <Ionicons name="exit-outline" size={20} color="#000" />
-                </View>
-                <View style={styles.showText}>
-                    <Text>Log Out</Text>
-                </View>
-            </View>
-            <View style={styles.rowAction}>
-                <Ionicons name="arrow-forward" size={20} color="#000" />
-            </View>
-        </TouchableOpacity>
-    </View>
-  )
-}
+const ProfileStackScreen = () => {
+    return (
+      <ProfileStack.Navigator headerMode="none">
+        <ProfileStack.Screen name="Profile" component={Profile} />
+      </ProfileStack.Navigator>
+    );
+};
+
+export default ProfileStackScreen;
