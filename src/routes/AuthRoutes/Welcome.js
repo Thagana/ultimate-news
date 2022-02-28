@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import * as Google from 'expo-auth-session/providers/google';
 import { useStoreActions } from "easy-peasy";
 import { Snackbar } from 'react-native-paper';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Server from '../../service/server';
 
@@ -35,6 +36,12 @@ export default function Welcome() {
         setSeverMessage(response.message);
       } else {
         setAuthenticated(response.data.data);
+        AsyncStorage
+          .setItem('token', response.data.data)
+          .then(() => {})
+          .catch((error) => {
+          console.log(error);
+        })
       }
     } catch (error) {
       console.log(error);

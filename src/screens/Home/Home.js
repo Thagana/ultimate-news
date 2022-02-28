@@ -11,9 +11,7 @@ import NetInfo from "@react-native-community/netinfo";
 
 import Article from "../../components/Articels/Article";
 import { getAllNews } from "../../functions/newsController";
-import { getWeather } from '../../functions/getWeather';
 import styles from './Home.style';
-import { Image } from "react-native";
 import HeaderList from "../../components/HeaderList/HeaderList";
 
 const Home = (props) => {
@@ -23,7 +21,6 @@ const Home = (props) => {
   const [connected, setConnected] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState('');
-  const [weather, setWeather] = React.useState('');
 
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
@@ -49,29 +46,29 @@ const Home = (props) => {
     }
   } 
   
-  React.useEffect(() => {
-    if(connected){
-      getWeather('Johannesburg')
-      .then(response => {
-        if (response) {
-          const icon = response.weather[0].icon
-          const temp = response.main.temp
-          const location = 'Johannesburg';
-          const minTemp = response.main.temp_min;
-          const maxTemp = response.main.temp_max;
-          const description = response.weather[0].description
+  // React.useEffect(() => {
+  //   if(connected){
+  //     getWeather('Johannesburg')
+  //     .then(response => {
+  //       if (response) {
+  //         const icon = response.weather[0].icon
+  //         const temp = response.main.temp
+  //         const location = 'Johannesburg';
+  //         const minTemp = response.main.temp_min;
+  //         const maxTemp = response.main.temp_max;
+  //         const description = response.weather[0].description
 
-          if(mounted.current){
-            setWeather({ icon, temp, location, maxTemp, minTemp, description });
-          }
+  //         if(mounted.current){
+  //           setWeather({ icon, temp, location, maxTemp, minTemp, description });
+  //         }
 
-        }
-      })
-      .catch(error => {
-      console.log(error)
-     })
-    }
-  }, [connected])
+  //       }
+  //     })
+  //     .catch(error => {
+  //     console.log(error)
+  //    })
+  //   }
+  // }, [connected])
 
   const onRefresh = React.useCallback(async () => {
     try {
@@ -131,7 +128,7 @@ const Home = (props) => {
           style={styles.listContainer}
         >
             <FlatList
-              ListHeaderComponent={<HeaderList navigation={props.navigation} weather={weather} term={term} setTerm={setTerm}/>}
+              ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
               data={articles}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />

@@ -1,5 +1,5 @@
 import { action, thunk } from 'easy-peasy';
-import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default {
     /* AUTHENTICATION */
@@ -8,6 +8,10 @@ export default {
     setAuthenticated: action((state, payload) => {
         state.isAuth = true;
         state.token = payload;
+    }),
+    logOut: action((state) => {
+        state.isAuth = false;
+        state.token = '';
     }),
     /* SETTINGS */
     location: 'Johannesburg',

@@ -18,7 +18,9 @@ const SafeScreen = () => {
                 <Text style={{ fontSize: 20 }}>View Offline articles</Text>
             </View>
             <View>
-                Articels
+                <Text>
+                    Articles
+                </Text>
             </View>        
         </View>
     )

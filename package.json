@@ -23,6 +23,7 @@
     "expo-file-system": "~13.1.2",
     "expo-keep-awake": "~10.0.1",
     "expo-linking": "~3.0.0",
+    "expo-location": "~14.0.1",
     "expo-random": "~12.1.1",
     "expo-splash-screen": "~0.14.1",
     "expo-updates": "~0.11.6",
