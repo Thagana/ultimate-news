@@ -129,5 +129,3 @@ buck-out/
 web-build/
 
 *.code-workspace
-
-keys.json
