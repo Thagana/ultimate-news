@@ -4,8 +4,10 @@
     "ios": "react-native run-ios",
     "web": "expo start --web",
     "start": "react-native start",
-    "test": "jest",
-    "keys": "node ./scripts/buildKeys.js"
+    "test": "jest"
+  },
+  "husky": {
+    "pre-push": "node ./scripts/buildKeys.js"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "~1.15.0",
