@@ -96,7 +96,7 @@ export default function HeaderList(props) {
           </View>
           {serverState === 'LOADING' && <View style={[styles.weather, { backgroundColor: '#fff', justifyContent: 'center', height: 50, width: 380 }]}><Text>Loading</Text></View>}
           {serverState === 'SET_WEATHER' && <TouchableOpacity  onPress={handleLocationCheck} style={[styles.weather, { backgroundColor: '#fff', justifyContent: 'center', height: 50, width: 380 }]}><Text>SET LOCATION TO FETCH WEATHER</Text></TouchableOpacity>}
-          {serverState === 'ERROR' && <View style={[styles.weather, { backgroundColor: '#fff', justifyContent: 'center', height: 50, width: 380 }]}><Text>ERROR LOADING WEATHER DATA</Text></View>}
+          {serverState === 'ERROR' && <TouchableOpacity onPress={handleLocationCheck} style={[styles.weather, { backgroundColor: '#fff', justifyContent: 'center', height: 50, width: 380 }]}><Text>ERROR LOADING WEATHER DATA</Text></TouchableOpacity>}
           {serverState === 'SUCCESS' &&           
               <TouchableOpacity  activeOpacity={0.7} onPress={handleLocationCheck} style={styles.weather}>
                 <View style={styles.iconContainer}>

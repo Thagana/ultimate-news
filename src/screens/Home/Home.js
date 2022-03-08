@@ -46,30 +46,6 @@ const Home = (props) => {
     }
   } 
   
-  // React.useEffect(() => {
-  //   if(connected){
-  //     getWeather('Johannesburg')
-  //     .then(response => {
-  //       if (response) {
-  //         const icon = response.weather[0].icon
-  //         const temp = response.main.temp
-  //         const location = 'Johannesburg';
-  //         const minTemp = response.main.temp_min;
-  //         const maxTemp = response.main.temp_max;
-  //         const description = response.weather[0].description
-
-  //         if(mounted.current){
-  //           setWeather({ icon, temp, location, maxTemp, minTemp, description });
-  //         }
-
-  //       }
-  //     })
-  //     .catch(error => {
-  //     console.log(error)
-  //    })
-  //   }
-  // }, [connected])
-
   const onRefresh = React.useCallback(async () => {
     try {
       setRefreshing(true);

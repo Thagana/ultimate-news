@@ -20,6 +20,9 @@ class Server {
     static async userWeatherLocation() {
         return Axios.get('/user/user_weather');
     }
+    static async savePushToken(token, type) {
+        return Axios.post('/user/push-token', { token, type });
+    }
 }
 
 export default Server;
