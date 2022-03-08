@@ -5,7 +5,7 @@ import styles from './LoadingArticle.style';
 export default function LoadingArticle() {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color="#00ff00" />
+      <ActivityIndicator size="large" color="#000" />
     </View>
   )
 }
