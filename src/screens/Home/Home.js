@@ -14,6 +14,9 @@ import { getAllNews } from "../../functions/newsController";
 import styles from './Home.style';
 import HeaderList from "../../components/HeaderList/HeaderList";
 
+import LoadingArticle from '../../components/Articels/LoadingArticle/'
+import ErrorArticle from "../../components/Articels/ErrorArticle";
+
 const Home = (props) => {
   const [term, setTerm] = React.useState("");
   const [refreshing, setRefreshing] = React.useState(false);
@@ -21,6 +24,9 @@ const Home = (props) => {
   const [connected, setConnected] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState('');
+
+  // SERVER STATES
+  const [SERVER_STATE, setServerState] = React.useState('IDLE');
 
   const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
@@ -35,13 +41,21 @@ const Home = (props) => {
   const fetchNews = async () => {
     try {
       if (connected) {
-        const response = await getAllNews();
-        const articles = response.data.articles;
-        if(mounted){
-          setArticle(articles);
+        const { success, data } = await getAllNews();
+        if (mounted) {
+          if (success) {
+            setArticle(data.data);
+            setServerState('SUCCESS');
+          } else {
+            setMessage('FAILED TO LOAD NEWS ARTICLES');
+            setServerState('ERROR');
+          }
+          setVisible(true)
         }
       }
     } catch (error) {
+      setServerState('ERROR');
+      setMessage('SOMETHING WENT WRONG PLEASE TRY AGAIN');
       console.log(error);
     }
   } 
@@ -49,15 +63,23 @@ const Home = (props) => {
   const onRefresh = React.useCallback(async () => {
     try {
       setRefreshing(true);
+      setServerState('LOADING');
       if (connected) {
-        const response = await getAllNews();
-        const articles = response.data.articles;
-        setArticle(articles);
-        setRefreshing(false);
+        const { success, data } = await getAllNews();
+        if (success) {
+          setArticle(data.data);
+          setRefreshing(false);
+          setServerState('SUCCESS');
+        } else {
+          setArticle(data);
+          setRefreshing(false);
+          setServerState('ERROR');
+        }
       }
     } catch (error) {
       console.log(error);
       setRefreshing(false);
+      setServerState('ERROR');
     }
   }, [refreshing]);
 
@@ -103,15 +125,17 @@ const Home = (props) => {
         <View
           style={styles.listContainer}
         >
-            <FlatList
-              ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
-              data={articles}
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }
-              renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
-              keyExtractor={(_, index) => index.toString()}
+            {SERVER_STATE === 'SUCCESS' && (
+              <FlatList
+                ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
+                data={articles}
+                refreshControl={
+                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+                renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
+                keyExtractor={(_, index) => index.toString()}
             />
+            )}
           <View>
             <Snackbar
               visible={visible}
@@ -121,6 +145,17 @@ const Home = (props) => {
             </Snackbar>
           </View>
         </View>
+        {SERVER_STATE === 'LOADING ' && (
+            <FlatList
+              ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
+              data={[{id: 1, id: 2, id: 3, id: 4, id: 5, id: 6}]}
+              renderItem={() => <LoadingArticle />}
+              keyExtractor={(_, index) => index.toString()}
+            />
+        )}
+        {SERVER_STATE === 'ERROR' && (
+            <ErrorArticle handleReload={onRefresh} />
+        )}
     </SafeAreaView>
   );
 };
