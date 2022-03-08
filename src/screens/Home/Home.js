@@ -122,40 +122,35 @@ const Home = (props) => {
     <SafeAreaView
       style={styles.container}
     >
-        <View
-          style={styles.listContainer}
-        >
-            {SERVER_STATE === 'SUCCESS' && (
-              <FlatList
-                ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
-                data={articles}
-                refreshControl={
-                  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-                renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
-                keyExtractor={(_, index) => index.toString()}
-            />
-            )}
-          <View>
-            <Snackbar
-              visible={visible}
-              onDismiss={onDismissSnackBar}
-              >
-              {message}
-            </Snackbar>
+      {SERVER_STATE === 'SUCCESS' && (
+          <View
+            style={styles.listContainer}
+          >
+                <FlatList
+                  ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
+                  data={articles}
+                  refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                  }
+                  renderItem={({item}) => <Article item={item} onDownload={onDownload} />}
+                  keyExtractor={(_, index) => index.toString()}
+              />
+            <View>
+            </View>
           </View>
-        </View>
-        {SERVER_STATE === 'LOADING ' && (
-            <FlatList
-              ListHeaderComponent={<HeaderList navigation={props.navigation} term={term} setTerm={setTerm}/>}
-              data={[{id: 1, id: 2, id: 3, id: 4, id: 5, id: 6}]}
-              renderItem={() => <LoadingArticle />}
-              keyExtractor={(_, index) => index.toString()}
-            />
+        )}
+        {SERVER_STATE === 'LOADING' && (
+            <LoadingArticle />
         )}
         {SERVER_STATE === 'ERROR' && (
             <ErrorArticle handleReload={onRefresh} />
         )}
+        <Snackbar
+            visible={visible}
+            onDismiss={onDismissSnackBar}
+            >
+            {message}
+        </Snackbar>
     </SafeAreaView>
   );
 };
