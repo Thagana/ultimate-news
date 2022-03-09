@@ -1,4 +1,3 @@
-import axios from "axios"
 import Server from '../service/server';
 
 export const getAllNews = async () => {
@@ -34,9 +33,30 @@ export const getAllNews = async () => {
 }
 export const getSearchedNews = async (query) => {
     try {
-        const response = await axios.get(`https://newsapi.org/v2/everything?q=+${query}&apiKey=${'35cf4cfccb8743cdbecd289312c5634d'}`);
-        return response;
+        const response = await Server.searchNews(query);
+        if (response.status === 200) {
+            const responseData = response.data;
+            const { data, success } = responseData;
+            if (success) {
+                return {
+                    success: true,
+                    data,
+                }
+            }
+            return {
+                success: false,
+                data: []
+            }
+        }
+        
+        return {
+            success: false,
+            data: []
+        };
     } catch (error) {
-        return error;
+        return {
+            success: false,
+            data: []
+        };
     }
 }
