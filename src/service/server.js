@@ -23,6 +23,9 @@ class Server {
     static async savePushToken(token, type) {
         return Axios.post('/user/push-token', { token, type });
     }
+    static async searchNews(term) {
+        return Axios.post('/news/search', { term });
+    }
 }
 
 export default Server;
