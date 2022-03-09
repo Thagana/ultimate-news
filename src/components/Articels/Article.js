@@ -49,7 +49,7 @@ const Article = ({ item, onDownload }) => {
         let response = await downloadObject.downloadAsync();
         if (response.status === 200) {
           const Article = new Manager(
-            source.name,
+            source,
             title,
             response.uri,
             description,
@@ -66,7 +66,7 @@ const Article = ({ item, onDownload }) => {
       }
     } else {
       const Article = new Manager(
-        source.name,
+        source,
         title,
         null,
         description,
@@ -110,7 +110,7 @@ const Article = ({ item, onDownload }) => {
         </View>
         <View style={styles.footer}>
           <View>
-            <Text>{source.name} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
+            <Text>{source} - {moment(publishedAt, "YYYYMMDD").fromNow()}</Text>
           </View>
           <View style={styles.iconContainer}>
             <TouchableOpacity 
