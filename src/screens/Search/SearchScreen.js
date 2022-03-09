@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Image, SafeAreaView } from "react-native";
+import * as React from "react";
+import { View, Text, SafeAreaView } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 /** Component */
@@ -7,24 +7,38 @@ import Article from "../../components/Articels";
 
 
 /** news API */
-import { getAllNews, getSearchedNews } from "../../functions/newsController";
-import { ScrollView } from "react-native-gesture-handler";
+import { getSearchedNews } from "../../functions/newsController";
+import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
 const Home = (props) => {
-  const [term, setterm] = useState("");
-  const [articles, setArticle] = useState([]);
+  const [term, setterm] = React.useState("");
+  const [articles, setArticle] = React.useState([]);
+  const [SERVER_STATE, setServerSate] = React.useState('IDLE');
 
-  const searchNews = async() => {
+  const handleSearch = async() => {
     try {
-      const response = await getSearchedNews(term);
-      const data = await response.data.articles;
-      setArticle(data);
+      const { data, success } = await getSearchedNews(term);
+      if (success) {
+        const mapped = data.map((item) => ({
+          source: item.source.name || 'unknown',
+          author: item.author || 'unknown',
+          urlToImage: item.urlToImage,
+          publishedAt: item.publishedAt,
+          title: item.title,
+          url: item.url || 'https://kulture-bucket.s3.af-south-1.amazonaws.com/68122202.jpeg',
+          description: item.description
+        }))
+        setArticle(mapped);
+        setServerSate('SUCCESS');
+      } else {
+        setServerSate('ERROR');
+      }
     } catch (error) {
       console.log(error);
+      setServerSate('ERROR');
     }
   };
 
-  useEffect(() => {}, []);
   return (
     <SafeAreaView
       style={{
@@ -50,38 +64,63 @@ const Home = (props) => {
         }}
         keyboardAppearance="dark"
         onCancel={() => props.navigation.navigate("Ultimate News")}
-        onKeyPress={() => searchNews()}
       />
         <View>
           <ScrollView>
             <View style={{ marginBottom: 5 }}>
-              {articles.length !== 0 ? (
+              {SERVER_STATE === 'SUCCESS' && (
                 articles.map((item, index) => {
                   return (
                     <Article
                       key={index}
-                      source={item.source}
-                      author={item.author}
-                      image={item.urlToImage}
-                      publishedAt={item.publishedAt}
-                      title={item.title}
-                      description={item.description}
-                      url={item.url}
-                      navigation={props.navigation}
+                      item={item}
                     />
                   );
                 })
-              ) : (
+              )} 
+              {SERVER_STATE === 'IDLE'  && (
                 <View
                   style={{
-                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <TouchableOpacity onPress={handleSearch} 
+                    disabled={term === ''}
+                    style={{
+                          flexDirection: 'row',
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundColor: '#4032a8',
+                          width: 200,
+                          height: 30,
+                          margin: 10,
+                          borderRadius: 10,
+                  }}>
+                    <Text style={{
+                      color: '#fff'
+                    }}>
+                      FIRE SEARCH
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              )}
+              {
+                SERVER_STATE === 'ERROR' && (
+                  <View
+                  style={{
+                    flexDirection: 'row',
                     justifyContent: "center",
                     alignContent: "center",
                   }}
                 >
-                  <Text>Search for News Articles</Text>
+                    <Text>
+                      FAILED TO SEARCH
+                    </Text>
                 </View>
-              )}
+                )
+              }
             </View>
           </ScrollView>
         </View>
