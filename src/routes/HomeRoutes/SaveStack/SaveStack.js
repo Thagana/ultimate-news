@@ -3,7 +3,7 @@ import { Alert, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useStoreActions, useStoreState } from 'easy-peasy';
-import SafeScreen from "../../../screens/SafeScreen";
+import SafeScreen from "../../../screens/Save";
 
 /** Functions */
 import { Store } from "../../../functions/articleController";
