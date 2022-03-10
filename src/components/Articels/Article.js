@@ -14,7 +14,7 @@ import ImageView from '../ImageView';
 import styles from './Article.style';
 
 const Article = ({ item, onDownload }) => {
-  const { url, urlToImage, title, description, source, publishedAt } = item;
+  const { url, urlToImage, title, description, source, publishedAt, author } = item;
 
   const addArt = useStoreActions((action) => action.addArticle);
   const handleShare = async () => {
@@ -94,7 +94,7 @@ const Article = ({ item, onDownload }) => {
   return (
       <View style={styles.card}>
         <TouchableOpacity style={styles.imageContainer} onPress={() => {
-          handleLinkNavigation(urlToImage);
+          handleLinkNavigation(url);
         }}>
           <ImageView image={urlToImage} />
         </TouchableOpacity>

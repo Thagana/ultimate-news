@@ -33,7 +33,7 @@ const Home = (props) => {
 
   const mounted = React.useRef(true);
 
-  const onDownload = (data) => {
+  const onDownload = () => {
     setMessage('Article Downloaded');
     onToggleSnackBar();
   }

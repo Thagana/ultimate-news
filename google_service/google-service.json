@@ -1,0 +1,13 @@
+{
+    "type": "service_account",
+    "project_id": "api-4642827132340859153-360433",
+    "private_key_id": "8f719cfbe08082211b269152799f27d0fc4132d4",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCZPy6FFTO8W0wY\nU8oSTzSlGG8myns5UskU5oCtmzEIgEFqY5IQQufcPy06FTgoECdcGdnNavKBsAVD\nvydTpDzfLLtvVmWM4prKtyXZNCrIQaaBlrZi/YeaKnBVavVQI4lSGQBsf7G9cOiF\nz/P0LAii4EMxeSjd7bdgsHLHWbizI+Gkvw9t+Eq3nzcJ9+o6qPIWXXy/nxHTbgx5\nS6smTtz0wBLECg4imFU3quvsftXiGan2Ws6dG6KeYedmJGWpmB0jtBBJmD//oDBJ\nQRnHrCnG0Qrav2t/DF3KvcRtE+ElKXvdVprpr3cACBbzj5nW5OYRuMwroaInLL++\nT/3VW4uZAgMBAAECggEAFpYimeBOXAJbxJEi7RBp+rRPe5jn0QLT2sX/bLb9Itre\naVsMFeP6jvJrzM4AVR1OY8t2l8ldvUIPgJTtq6z/AMizxnzmIj3q4Rpd1HXVIWdV\nrm9jadMit5TuMhS928YlEOnY72ThskFwL/q+orwTuMfTd3j7TjxhZPmUrS+a4qIa\nllTlT2nnmFaPtDx+ldGKC+xTErCLoypJ9cyhW2bv8iDey/LhH5iJDDQkeQ1ZQ1q4\nbOMdJhjlKmD54Qo8OvJjNegL0g9bcYpePqe34XT61htW8tfoTKikeWFyyyM46bhB\nLgWuG6Yx88v7NQuMQLZVOmwcMVSQAYtRocH3xh109QKBgQDHaM7SedNhMRX1mR/1\niXF6BZQ5dmeepPgtIm/6xs8YhgtEX14zuQlnBmZbfmZChZ1AZd7U2e8OwXvTe3on\nXx/YEdmzmNLsOd12AlIi66EFhq9d9SoyKbkkUwEHLTVbfjAvjJVjN8A6KQh/h3wh\nRpFlEixed1O9z3vJRp+PyrCJNQKBgQDEvKNNb+GlqiArdIkWXN4GTwTUIbQ3wzlo\nrr8kF2BaF/rSoBLE9yI2ALxSApdHT9gttE1bEc0PYvRKNTOxx6khdi/XfxRVNoeZ\nKt/RG51pOPbkK7h0vq7crgY25y0b6b5xq7yphhO+M58xaTvEg8ZS0QNuVdjbz/XW\n8lspdMKpVQKBgQCLF0cUNtfDdmqbyfgp23nkpBmUz0tNtEJLsTaslJoFwBIB2geq\nSkoNq8Af15XalrpuHeCFVZJTF5CYngtBhS+AFktk45dUILShyNKj+vlxElYmUojh\nPoselCsmZ1lNfUJ9GDFnaI7TwqVj1ww1ZbSq7Dc4mUE3J49vgKxxru7edQKBgAlq\nwiJVxaZJY2rRFDLG1TXWGHQS/O5iYOAa5TlUCR+m4DGuydc1wSR2mo0OZLFcKAvg\nAofmbTtcUDcxHr1WwkjAwH9/LLj7eDgjrjzzJnC/8klvsk+cRQB5MAD2xdj9Mkl8\nn/Y5Xb6P+AHEeMDqUdbq/FAOueejp6/XP/fXB+5VAoGBAMRJqb/5Slv+b+sjSoG/\n+K+mBsZ0+AIWGd6mGLUNZCaYvO8ed+ZB6C5SVTN51SEYJQ7RmB8V8Tl+XMImktXy\nNNfOLOh5Uz/MHMdZhnO99LS+a4/PCuN15SS/8gVn+kA0aPoYzyOiYb5XwRi0ag62\n/JI7BRiYOfROOWEe60ZOfgz3\n-----END PRIVATE KEY-----\n",
+    "client_email": "northern-breeze@api-4642827132340859153-360433.iam.gserviceaccount.com",
+    "client_id": "111475380423972779559",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/northern-breeze%40api-4642827132340859153-360433.iam.gserviceaccount.com"
+}
+  
