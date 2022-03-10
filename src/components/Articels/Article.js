@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Share } from "react-native";
-import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
 import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
@@ -13,7 +12,7 @@ import ImageView from '../ImageView';
 
 import styles from './Article.style';
 
-const Article = ({ item, onDownload }) => {
+const Article = ({ item, onDownload, isDownload }) => {
   const { url, urlToImage, title, description, source, publishedAt, author } = item;
 
   const addArt = useStoreActions((action) => action.addArticle);
@@ -37,16 +36,13 @@ const Article = ({ item, onDownload }) => {
     }
   };
 
-  const handleVisit = async () => {
-    Linking.openURL(url);
-  };
-
   const downloadFile = async (image) => {
     if (image !== null) {
       const fileUri = FileSystem.documentDirectory + Math.random() + ".jpg";
       let downloadObject = FileSystem.createDownloadResumable(image, fileUri);
       try {
-        let response = await downloadObject.downloadAsync();
+        const response = await downloadObject.downloadAsync();
+        console.log(response);
         if (response.status === 200) {
           const Article = new Manager(
             source,
@@ -120,13 +116,15 @@ const Article = ({ item, onDownload }) => {
                 >
               <AntDesign name="sharealt" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.icon}
-                activeOpacity={0.8}
-                onPress={handleSave}
-                >
-              <AntDesign name="download" size={24} color="black" />
-            </TouchableOpacity>
+            {!isDownload && (
+              <TouchableOpacity 
+                  style={styles.icon}
+                  activeOpacity={0.8}
+                  onPress={handleSave}
+                  >
+                <AntDesign name="download" size={24} color="black" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
