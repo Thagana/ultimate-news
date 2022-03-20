@@ -1,6 +1,6 @@
 
 const config = {
-    APPLICATION_URL: 'https://e7d3-197-184-180-194.ngrok.io'
+    APPLICATION_URL: 'https://bc9b-197-184-182-246.ngrok.io'
 }
 
 export default config;
