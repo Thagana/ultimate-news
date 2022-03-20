@@ -3,8 +3,6 @@ import { View, Text, FlatList } from 'react-native'
 import { useStoreState } from 'easy-peasy';
 import styles from './SaveScreen.style';
 
-import { Store } from '../../functions/articleController';
-
 /** Components */
 import Article from '../../components/Articels';
 
