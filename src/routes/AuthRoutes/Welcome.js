@@ -23,7 +23,7 @@ export default function Welcome() {
   
   const handlePress = async () => {
     try {
-      promptAsync();
+      await promptAsync();
     } catch (error) {
       console.log(error);
     }

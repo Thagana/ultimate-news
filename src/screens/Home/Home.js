@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { Snackbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
-
+import { PropTypes } from 'prop-types';
 import Article from "../../components/Articels/Article";
 import { getAllNews } from "../../functions/newsController";
 import styles from './Home.style';
@@ -154,5 +154,9 @@ const Home = (props) => {
     </SafeAreaView>
   );
 };
+
+Home.propTypes = {
+  navigation: PropTypes.object
+}
 
 export default Home;

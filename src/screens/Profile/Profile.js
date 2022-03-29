@@ -87,6 +87,7 @@ export default function ProfileStack() {
         try {
             setServerState('LOADING');
             const response = await Server.getSettings();
+            console.log(response.data);
             if (response.status === 200) {
                 if (response.data.data) {
                     const { location, language, pushState } = response.data.data;
@@ -114,7 +115,7 @@ export default function ProfileStack() {
   return (
       <>
         {serverState === 'LOADING' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading</Text></View>}
-        {serverState === 'ERROR' && <View><Text>ERROR</Text></View>}
+        {serverState === 'ERROR' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>ERROR</Text></View>}
         {serverState === 'SUCCESS' && 
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.listItem} onPress={() => {}}>

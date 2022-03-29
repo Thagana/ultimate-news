@@ -5,6 +5,7 @@ import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
 import moment from "moment";
 import * as WebBrowser from 'expo-web-browser';
+import { PropTypes } from 'prop-types';
 
 import { Manager, Store } from "../../functions/articleController";
 
@@ -12,7 +13,8 @@ import ImageView from '../ImageView';
 
 import styles from './Article.style';
 
-const Article = ({ item, onDownload, isDownload }) => {
+const Article = (props) => {
+  const { item, onDownload, isDownload } = props;
   const { url, urlToImage, title, description, source, publishedAt, author } = item;
 
   const addArt = useStoreActions((action) => action.addArticle);
@@ -24,12 +26,12 @@ const Article = ({ item, onDownload, isDownload }) => {
 
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          console.log('Shared with type')
+          // console.log('Shared with type')
         } else {
-          console.log("Shared");
+          // console.log("Shared");
         }
       } else if (result.action === Share.dismissedAction) {
-        console.log("Closed");
+        // console.log("Closed");
       }
     } catch (error) {
       alert(error.message);
@@ -130,5 +132,11 @@ const Article = ({ item, onDownload, isDownload }) => {
       </View>
   );
 };
+
+Article.propTypes = {
+  onDownload: PropTypes.func,
+  item: PropTypes.any,
+  isDownload: PropTypes.bool
+}
 
 export default Article;

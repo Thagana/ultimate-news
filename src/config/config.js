@@ -1,6 +1,6 @@
 
 const config = {
-    APPLICATION_URL: 'https://bc9b-197-184-182-246.ngrok.io'
+    APPLICATION_URL: 'https://ultimate-news-api.herokuapp.com'
 }
 
 export default config;
