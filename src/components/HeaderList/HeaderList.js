@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Searchbar } from "react-native-paper";
 import * as Location from 'expo-location';
+import { PropTypes } from 'prop-types';
 import Server from '../../service/server';
 
 import styles from './Header.style';
@@ -50,13 +51,15 @@ export default function HeaderList(props) {
             const data = response.data.data;
             const { icon, temp, location, maxTemp, minTemp, description } = data;
             setWeather({ icon, temp, location, maxTemp, minTemp, description });
-              setServerState('SUCCESS');
+            setServerState('SUCCESS');
           }
           if (message === 'LOCATION_NOT_SET') {
               setServerState('SET_WEATHER');
           } else {
             setServerState('ERROR');
           }
+        } else {
+          setServerState('ERROR');
         }
       } catch (error) {
         console.log(error);
@@ -130,4 +133,10 @@ export default function HeaderList(props) {
 
     </>
     )
+}
+
+HeaderList.propTypes = {
+  term: PropTypes.string,
+  setTerm: PropTypes.func,
+  navigation: PropTypes.object
 }

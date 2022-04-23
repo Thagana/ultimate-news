@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, Text, StatusBar, Platform } from 'react-native'
+import { View, Text, Platform } from 'react-native'
 import * as Device from 'expo-device';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons';
@@ -32,7 +32,6 @@ async function registerForPushNotificationsAsync() {
         return;
       }
       token = (await Notifications.getExpoPushTokenAsync()).data;
-      console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
     }
@@ -52,7 +51,6 @@ async function registerForPushNotificationsAsync() {
 export default function ProfileStack() {
     const [serverState, setServerState] = React.useState('LOADING');
     const [language, setLanguage] = React.useState('');
-    const [frequency, setFrequency] = React.useState(0);
     const [location, setLocation] = React.useState('');
     const [pushEnabled, setPushEnabled] = React.useState('Unknown');
     const logOut = useStoreActions((action) => action.logOut);
@@ -64,11 +62,8 @@ export default function ProfileStack() {
     const handleSettings = async (type) => {
         switch (type) {
             case 'PUSH_NOTIFICATION':
-                if (pushEnabled === 'False') {
-                    await askForPushNotification();
-                }
-                break;
-        
+                await askForPushNotification();
+                break;        
             default:
                 break;
         }
@@ -76,10 +71,10 @@ export default function ProfileStack() {
 
     const askForPushNotification = async () => {
         try {
-            const token = registerForPushNotificationsAsync()
+            let token = await registerForPushNotificationsAsync()
+            token = String(token);
             const type = 'PUSH_NOTIFICATION';
-            const tokenStr = String(token);
-            const response = await Server.savePushToken(tokenStr, type);
+            const response = await Server.savePushToken(token, type);
             if (response.status === 200) {
                 setPushEnabled('True');
             }
@@ -92,13 +87,20 @@ export default function ProfileStack() {
         try {
             setServerState('LOADING');
             const response = await Server.getSettings();
-            const { location, language, frequency, pushState } = response.data.data;
-            const pushData = pushState === 0 ? 'False' : 'True';
-            setLocation(location);
-            setLanguage(language);
-            setFrequency(frequency);
-            setPushEnabled(pushData)
-            setServerState('SUCCESS');
+            if (response.status === 200) {
+                if (response.data.data) {
+                    const { location, language, pushState } = response.data.data;
+                    const pushData = pushState === 0 ? 'False' : 'True';
+                    setLocation(location);
+                    setLanguage(language);
+                    setPushEnabled(pushData)
+                    setServerState('SUCCESS');
+                } else {
+                    setServerState('ERROR');
+                }
+            } else {
+                setServerState('ERROR');
+            }
         } catch (error) {
             console.log(error);
             setServerState('ERROR');
@@ -112,7 +114,7 @@ export default function ProfileStack() {
   return (
       <>
         {serverState === 'LOADING' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading</Text></View>}
-        {serverState === 'ERROR' && <View><Text>ERROR</Text></View>}
+        {serverState === 'ERROR' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>ERROR</Text></View>}
         {serverState === 'SUCCESS' && 
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.listItem} onPress={() => {}}>
@@ -175,25 +177,4 @@ export default function ProfileStack() {
       </>
   )
 }
-
-// Can use this function below, OR use Expo's Push Notification Tool-> https://expo.dev/notifications
-async function sendPushNotification(expoPushToken) {
-    const message = {
-      to: expoPushToken,
-      sound: 'default',
-      title: 'Original Title',
-      body: 'And here is the body!',
-      data: { someData: 'goes here' },
-    };
-  
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
-  }
   

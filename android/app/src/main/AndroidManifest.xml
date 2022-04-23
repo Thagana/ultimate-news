@@ -34,6 +34,8 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="ultimatenews"/>
+        <data android:scheme="https" android:host="www.theultimatenews.xyz" />
+        <data android:scheme="http" android:host="www.theultimatenews.xyz" />
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>

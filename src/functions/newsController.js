@@ -1,8 +1,13 @@
 import Server from '../service/server';
 
-export const getAllNews = async () => {
+/**
+ * 
+ * @param {number} page 
+ * @returns 
+ */
+export const getAllNews = async (page) => {
     try {
-        const response = await Server.getHeadlines();
+        const response = await Server.getHeadlines(page);
         if (response.status === 200) {
             const responseData = response.data;
             const { data, success } = responseData;

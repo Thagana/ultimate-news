@@ -10,7 +10,7 @@ const myStore = createStore(persist(store));
 
 export const RootWrapper = () => {
 
-  const [notification, setNotification] = React.useState(false);
+  // const [notification, setNotification] = React.useState(false);
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
 
@@ -19,13 +19,13 @@ export const RootWrapper = () => {
   React.useEffect(() => {
     
     // This listener is fired whenever a notification is received while the app is foregrounded
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
+    notificationListener.current = Notifications.addNotificationReceivedListener(() => {
+      // setNotification(notification);
     });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(() => {
+      // console.log(response);
     });
 
     return () => {

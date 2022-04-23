@@ -1,5 +1,4 @@
-import { action, thunk } from 'easy-peasy';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { action } from 'easy-peasy';
 
 export default {
     /* AUTHENTICATION */
@@ -34,7 +33,7 @@ export default {
         state.articles = [];
     }),
     // Change The Theme
-    toggleTheme: action((state, payload) => {
+    toggleTheme: action((state) => {
         state.isDarkMode = false;
     })
 

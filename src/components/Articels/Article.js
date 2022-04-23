@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Share } from "react-native";
-import * as Linking from 'expo-linking';
 import * as FileSystem from "expo-file-system";
 import { useStoreActions } from "easy-peasy";
 import { AntDesign } from '@expo/vector-icons';
 import moment from "moment";
 import * as WebBrowser from 'expo-web-browser';
+import { PropTypes } from 'prop-types';
 
 import { Manager, Store } from "../../functions/articleController";
 
@@ -13,7 +13,8 @@ import ImageView from '../ImageView';
 
 import styles from './Article.style';
 
-const Article = ({ item, onDownload }) => {
+const Article = (props) => {
+  const { item, onDownload, isDownload } = props;
   const { url, urlToImage, title, description, source, publishedAt, author } = item;
 
   const addArt = useStoreActions((action) => action.addArticle);
@@ -25,20 +26,16 @@ const Article = ({ item, onDownload }) => {
 
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          console.log('Shared with type')
+          // console.log('Shared with type')
         } else {
-          console.log("Shared");
+          // console.log("Shared");
         }
       } else if (result.action === Share.dismissedAction) {
-        console.log("Closed");
+        // console.log("Closed");
       }
     } catch (error) {
       alert(error.message);
     }
-  };
-
-  const handleVisit = async () => {
-    Linking.openURL(url);
   };
 
   const downloadFile = async (image) => {
@@ -46,7 +43,8 @@ const Article = ({ item, onDownload }) => {
       const fileUri = FileSystem.documentDirectory + Math.random() + ".jpg";
       let downloadObject = FileSystem.createDownloadResumable(image, fileUri);
       try {
-        let response = await downloadObject.downloadAsync();
+        const response = await downloadObject.downloadAsync();
+        console.log(response);
         if (response.status === 200) {
           const Article = new Manager(
             source,
@@ -120,17 +118,25 @@ const Article = ({ item, onDownload }) => {
                 >
               <AntDesign name="sharealt" size={24} color="black" />
             </TouchableOpacity>
-            <TouchableOpacity 
-                style={styles.icon}
-                activeOpacity={0.8}
-                onPress={handleSave}
-                >
-              <AntDesign name="download" size={24} color="black" />
-            </TouchableOpacity>
+            {!isDownload && (
+              <TouchableOpacity 
+                  style={styles.icon}
+                  activeOpacity={0.8}
+                  onPress={handleSave}
+                  >
+                <AntDesign name="download" size={24} color="black" />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </View>
   );
 };
+
+Article.propTypes = {
+  onDownload: PropTypes.func,
+  item: PropTypes.any,
+  isDownload: PropTypes.bool
+}
 
 export default Article;
