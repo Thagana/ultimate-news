@@ -1,5 +1,10 @@
 import Server from '../service/server';
 
+/**
+ * 
+ * @param {number} page 
+ * @returns 
+ */
 export const getAllNews = async (page) => {
     try {
         const response = await Server.getHeadlines(page);
