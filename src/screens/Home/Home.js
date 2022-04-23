@@ -42,7 +42,7 @@ const Home = (props) => {
     try {
       if (connected) {
         const { success, data } = await getAllNews();
-        if (mounted) {
+        if (mounted.current) {
           if (success) {
             setArticle(data.data);
             setServerState('SUCCESS');

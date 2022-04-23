@@ -1,8 +1,11 @@
 import Axios from './network';
 
 class Server {
-    static async login(token) {
-        return Axios.post('/auth/login', { token })
+    static async login(code) {
+        return Axios.post('/auth/login', { code })
+    }
+    static async register(email) {
+        return Axios.post('/auth/register', { email });
     }
     static async checkToken(token) {
         return Axios.post('/auth/check', { token });
@@ -10,8 +13,8 @@ class Server {
     static async getSettings() {
         return Axios.get('/user/settings');
     }
-    static async getHeadlines() {
-        return Axios.get('/news/headlines');
+    static async getHeadlines(page = 1, size = 10) {
+        return Axios.get(`/news/headlines?page=${page}&size=${size}`);
     }
     static async weatherLocation(location) {
         const { longitude, latitude } = location;

@@ -1,6 +1,6 @@
 
 const config = {
-    APPLICATION_URL: 'https://ultimate-news-api.herokuapp.com'
+    APPLICATION_URL: 'http://192.168.8.112:4001'
 }
 
 export default config;

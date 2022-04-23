@@ -87,7 +87,6 @@ export default function ProfileStack() {
         try {
             setServerState('LOADING');
             const response = await Server.getSettings();
-            console.log(response.data);
             if (response.status === 200) {
                 if (response.data.data) {
                     const { location, language, pushState } = response.data.data;
