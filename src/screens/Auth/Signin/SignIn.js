@@ -49,6 +49,11 @@ export default function SignIn(props) {
       setStateMessage('ERROR');
     }
   }
+
+  const handleNavigation = () => {
+    navigation.navigate('verify');
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.googleGoogleContainer}>
@@ -70,6 +75,13 @@ export default function SignIn(props) {
                 <TouchableOpacity onPress={handleAuth} activeOpacity={0.7} style={styles.googleButton}>
                     <Text style={styles.textButton}>{STATE_MESSAGE === 'LOADING' ? 'Loading ...' : 'Send'}</Text>
                 </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={handleNavigation}>
+                <Text style={styles.verifyCode}>
+                  Verify Code
+                </Text>
+              </TouchableOpacity>
             </View>
         </View>
       </View>
