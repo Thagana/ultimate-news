@@ -7,7 +7,6 @@ import { Ionicons } from '@expo/vector-icons';
 /** Screen */
 import SafeStackScreen from "./SaveStack/SaveStack";
 import HomeStack from './HomeStack/HomeStack';
-import BillingStack from "./BillingStack";
 import ProfileStack from "./ProfileStack";
 
 const Tab = createMaterialBottomTabNavigator();
@@ -35,20 +34,6 @@ const TabScreen = () => {
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="file-cabinet"
-              color={color}
-              size={26}
-            />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Subscription"
-        component={BillingStack}
-        options={{
-          tabBarLabel: "Subscription",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons
-              name="wallet-outline"
               color={color}
               size={26}
             />

@@ -30,6 +30,7 @@ const Home = (props) => {
   const [message, setMessage] = React.useState("");
   const [page, setPage] = React.useState(1);
   const [pageEnd, setPageEnd] = React.useState(false);
+  const [size] = React.useState(10);
 
   // SERVER STATES
   const [SERVER_STATE, setServerState] = React.useState("IDLE");
@@ -47,9 +48,10 @@ const Home = (props) => {
   const fetchNews = async () => {
     try {
       if (connected) {
-        const { success, data } = await getAllNews(page);
+        const { success, data } = await getAllNews(page, size);
         if (mounted.current) {
           if (success) {
+            console.log(data.data.length);
             if (data.data.length === 0) {
               setPageEnd(true);
             } else {
@@ -123,8 +125,8 @@ const Home = (props) => {
   React.useEffect(() => {
     return () => {
       mounted.current = false;
-    };
-  }, []);
+    }
+  }, [])
 
   if (!connected) {
     return <NotConnected />;
@@ -135,6 +137,7 @@ const Home = (props) => {
       {SERVER_STATE === "SUCCESS" && (
         <View style={styles.listContainer}>
           <FlatList
+            data={articles}
             ListHeaderComponent={
               <HeaderList
                 navigation={props.navigation}
@@ -142,7 +145,6 @@ const Home = (props) => {
                 setTerm={setTerm}
               />
             }
-            data={articles}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
             }

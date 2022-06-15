@@ -44,7 +44,6 @@ const Article = (props) => {
       let downloadObject = FileSystem.createDownloadResumable(image, fileUri);
       try {
         const response = await downloadObject.downloadAsync();
-        console.log(response);
         if (response.status === 200) {
           const Article = new Manager(
             source,
@@ -57,7 +56,7 @@ const Article = (props) => {
           Store.addArticle(Article);
           addArt(Article);
         } else {
-          console.log("Something went wrong while downloading");
+          //
         }
       } catch (error) {
         console.log(error);

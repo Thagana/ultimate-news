@@ -24,9 +24,7 @@ export const RootWrapper = () => {
     });
 
     // This listener is fired whenever a user taps on or interacts with a notification (works when app is foregrounded, backgrounded, or killed)
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(() => {
-      // console.log(response);
-    });
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(() => {});
 
     return () => {
       Notifications.removeNotificationSubscription(notificationListener.current);
