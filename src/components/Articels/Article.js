@@ -26,9 +26,9 @@ const Article = (props) => {
 
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
-          // console.log('Shared with type')
+          // 
         } else {
-          // console.log("Shared");
+          // 
         }
       } else if (result.action === Share.dismissedAction) {
         // console.log("Closed");
