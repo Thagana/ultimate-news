@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 50,
         margin: 2,
-        padding: 2,
+        padding: 3,
     },
     googleButton: {
         flexDirection: 'row',
@@ -37,7 +37,10 @@ const styles = StyleSheet.create({
     },
     textButton: {
         color: '#fff'
-    }
+    },
+    verifyCodeText: {
+        textDecorationLine: 'underline'
+    },
 });
 
 export default styles;

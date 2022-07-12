@@ -6,7 +6,8 @@ import { useStoreActions } from "easy-peasy";
 import styles from "./Verify.style";
 import Server from "../../../service/server";
 
-export default function Verify() {
+export default function Verify(props) {
+  const { navigation } = props;
   const [code, setCode] = React.useState("");
   const [SERVER_MESSAGE, setSeverMessage] = React.useState("");
   const login = useStoreActions((state) => state.setAuthenticated);
@@ -14,6 +15,11 @@ export default function Verify() {
   const handleChange = (val) => {
     setCode(val);
   };
+  
+  const handleLogin = () => {
+    navigation.navigate('signin');
+  }
+
   const handleSend = async () => {
     try {
       setSeverMessage("LOADING");
@@ -64,6 +70,11 @@ export default function Verify() {
           >
             <Text style={styles.textButton}>
               {SERVER_MESSAGE === "LOADING" ? "Loading ..." : "Send"}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogin}>
+            <Text style={styles.signInText}>
+              Sign In
             </Text>
           </TouchableOpacity>
         </View>

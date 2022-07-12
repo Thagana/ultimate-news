@@ -37,7 +37,10 @@ const styles = StyleSheet.create({
     },
     textButton: {
         color: '#fff'
-    }
+    },
+    signInText: {
+        textDecorationLine: 'underline'
+    },
 });
 
 export default styles;

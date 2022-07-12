@@ -24,6 +24,10 @@ export default function SignIn(props) {
     setEmail(val);
   }
 
+  const handleVerifyCode = () => {
+    navigation.navigate('verify');
+  }
+
   const handleAuth = async () => {
     try {
         setStateMessage('LOADING');
@@ -71,6 +75,9 @@ export default function SignIn(props) {
                     <Text style={styles.textButton}>{STATE_MESSAGE === 'LOADING' ? 'Loading ...' : 'Send'}</Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity activeOpacity={0.7} onPress={handleVerifyCode}>
+              <Text style={styles.verifyCodeText}>Verify Code</Text>
+            </TouchableOpacity>
         </View>
       </View>
       <Snackbar visible={STATE_MESSAGE}>
