@@ -21,9 +21,9 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderRadius: 7,
         width: 300,
-        height: 50,
-        margin: 2,
-        padding: 3,
+        height: 60,
+        padding: 10,
+        margin: 3
     },
     googleButton: {
         flexDirection: 'row',
@@ -31,16 +31,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#24a0ed',
         width: 300,
-        height: 50,
+        height: 60,
         borderRadius: 10,
-        margin: 2
+        margin: 3
     },
     textButton: {
         color: '#fff'
     },
-    verifyCodeText: {
-        textDecorationLine: 'underline'
-    },
+    verifyCode: {
+        textDecorationStyle: 'solid',
+        textDecorationColor: '#000',
+        textDecorationLine: 'underline',
+        margin: 3
+    }
 });
 
 export default styles;

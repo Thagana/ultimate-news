@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { Ionicons } from '@expo/vector-icons';
 import { useStoreActions } from 'easy-peasy';
 import * as Notifications from 'expo-notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import styles from './Profile.style'
 import Server from '../../service/server';
@@ -55,8 +56,13 @@ export default function ProfileStack() {
     const [pushEnabled, setPushEnabled] = React.useState('Unknown');
     const logOut = useStoreActions((action) => action.logOut);
    
-    const handleLogOut = () => {
-        logOut()
+    const handleLogOut = async () => {
+        try {
+            logOut();
+            await AsyncStorage.removeItem('token');
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const handleSettings = async (type) => {
@@ -113,8 +119,24 @@ export default function ProfileStack() {
     
   return (
       <>
-        {serverState === 'LOADING' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>Loading</Text></View>}
-        {serverState === 'ERROR' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><Text>ERROR</Text></View>}
+        {serverState === 'LOADING' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text>Loading</Text>
+        </View>}
+        {serverState === 'ERROR' && <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <TouchableOpacity style={styles.listItem} onPress={handleLogOut}>
+                        <View style={styles.rowItems}>
+                            <View style={styles.icons}>
+                                <Ionicons name="exit-outline" size={20} color="#000" />
+                            </View>
+                            <View style={styles.showText}>
+                                <Text>Log Out</Text>
+                            </View>
+                        </View>
+                        <View style={styles.rowAction}>
+                            <Ionicons name="arrow-forward" size={20} color="#000" />
+                        </View>
+                    </TouchableOpacity>    
+        </View>}
         {serverState === 'SUCCESS' && 
                 <View style={styles.container}>
                     <TouchableOpacity style={styles.listItem} onPress={() => {}}>
