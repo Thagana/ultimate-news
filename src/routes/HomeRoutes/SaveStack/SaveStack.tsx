@@ -10,7 +10,7 @@ import { Store } from "../../../functions/articleController";
 
 const SafeStack = createStackNavigator();
 const SafeStackScreen = () => {
-  const removeAll = useStoreActions((action) => action.removeAllArticles);
+  const removeAll = useStoreActions<any, any>((action) => action.removeAllArticles);
   const isDarkMode = useStoreState((state) => state.isDarkMode);
 
   const showAlert = () => {
