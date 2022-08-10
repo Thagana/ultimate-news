@@ -1,10 +1,9 @@
 
 class UniqueNameSet extends Set {
-    constructor(values) {
+    constructor(values: any) {
         super(values);
 
-        const names = [];
-        // @ts-ignore
+        const names: any = [];
         for (let value of this) {
             if (names.includes(value.title)) {
                 this.delete(value);

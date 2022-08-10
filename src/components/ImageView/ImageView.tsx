@@ -3,7 +3,11 @@ import { Image } from "react-native";
 
 import styles from './ImageView.style';
 
-export default function ImageView(props) {
+type Props = {
+  image: string;
+}
+
+export default function ImageView(props: Props) {
     const { image } = props;
   return (
     <Image

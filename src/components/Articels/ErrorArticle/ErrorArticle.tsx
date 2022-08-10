@@ -2,7 +2,12 @@ import * as React from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import styles from './ErrorArticle.style';
 
-export default function ErrorArticle(props) {
+
+type Props = {
+  handleReload(): void;
+}
+
+export default function ErrorArticle(props: Props): JSX.Element {
   const { handleReload } = props;
   return (
     <View style={styles.container}>

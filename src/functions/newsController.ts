@@ -1,11 +1,13 @@
 import Server from '../service/server';
 
+
 /**
  * 
- * @param {number} page 
- * @returns 
+ * @param page the page number of the request
+ * @param size the size of the data response
+ * @returns Promise<boolean, any[]>
  */
-export const getAllNews = async (page, size) => {
+export const getAllNews = async (page: number, size: number) => {
     try {
         const response = await Server.getHeadlines(page, size);
         if (response.status === 200) {
@@ -36,7 +38,7 @@ export const getAllNews = async (page, size) => {
         }
     }
 }
-export const getSearchedNews = async (query) => {
+export const getSearchedNews = async (query: string) => {
     try {
         const response = await Server.searchNews(query);
         if (response.status === 200) {

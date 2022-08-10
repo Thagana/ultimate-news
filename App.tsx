@@ -10,8 +10,8 @@ const myStore = createStore(persist(store));
 
 export const RootWrapper = () => {
 
-  const notificationListener = React.useRef();
-  const responseListener = React.useRef();
+  const notificationListener = React.useRef<any>();
+  const responseListener = React.useRef<any>();
 
   const isHydrated = useStoreRehydrated();
 

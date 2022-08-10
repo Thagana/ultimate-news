@@ -5,15 +5,13 @@ import {
   RefreshControl,
   FlatList,
 } from "react-native";
-import { Snackbar } from "react-native-paper";
 import NetInfo from "@react-native-community/netinfo";
-import { PropTypes } from "prop-types";
 import Article from "../../components/Articels/Article";
 import { getAllNews } from "../../functions/newsController";
 import styles from "./Home.style";
 import HeaderList from "../../components/HeaderList/HeaderList";
 
-import LoadingArticle from "../../components/Articels/LoadingArticle/";
+import LoadingArticle from "../../components/Articels/LoadingArticle";
 import ErrorArticle from "../../components/Articels/ErrorArticle";
 import EmptyList from "../../components/EmptyList";
 import ListFooter from "../../components/ListFooter";
@@ -21,10 +19,16 @@ import ListFooter from "../../components/ListFooter";
 import UniqueNameSet from "../../utils/UniqueNameSet";
 import NotConnected from "../../components/NotConnected";
 
-const Home = (props) => {
+type Props = {
+  navigation: {
+    navigate(param: string): void;
+  }
+}
+
+const Home = (props: Props) => {
   const [term, setTerm] = React.useState("");
   const [refreshing, setRefreshing] = React.useState(false);
-  const [articles, setArticle] = React.useState([]);
+  const [articles, setArticle] = React.useState<any>([]);
   const [connected, setConnected] = React.useState(true);
   const [visible, setVisible] = React.useState(false);
   const [message, setMessage] = React.useState("");
@@ -54,7 +58,7 @@ const Home = (props) => {
             if (data.data.length === 0) {
               setPageEnd(true);
             } else {
-              setArticle((prev) =>
+              setArticle((prev: any) =>
                 Array.from(new UniqueNameSet([...prev, ...data.data]).values())
               );
             }
@@ -83,9 +87,9 @@ const Home = (props) => {
       setRefreshing(true);
       setServerState("LOADING");
       if (connected) {
-        const { success, data } = await getAllNews(page);
+        const { success, data } = await getAllNews(page, size);
         if (success) {
-          setArticle((prev) =>
+          setArticle((prev: any) =>
             Array.from(new UniqueNameSet([...prev, ...data.data]).values())
           );
           setRefreshing(false);
@@ -161,15 +165,8 @@ const Home = (props) => {
       )}
       {SERVER_STATE === "LOADING" && <LoadingArticle />}
       {SERVER_STATE === "ERROR" && <ErrorArticle handleReload={onRefresh} />}
-      <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
-        {message}
-      </Snackbar>
     </SafeAreaView>
   );
-};
-
-Home.propTypes = {
-  navigation: PropTypes.object,
 };
 
 export default Home;
