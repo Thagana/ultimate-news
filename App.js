@@ -10,7 +10,6 @@ const myStore = createStore(persist(store));
 
 export const RootWrapper = () => {
 
-  // const [notification, setNotification] = React.useState(false);
   const notificationListener = React.useRef();
   const responseListener = React.useRef();
 

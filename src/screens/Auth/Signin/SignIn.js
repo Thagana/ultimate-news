@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native'
-import { Snackbar } from 'react-native-paper';
 import { PropTypes } from 'prop-types';
 
 import styles from './Signin.style';
@@ -16,7 +15,7 @@ const validateEmail = (email) => {
 
 export default function SignIn(props) {
   const { navigation } = props;
-  const [SERVER_MESSAGE, setSeverMessage] = React.useState('');
+  const [_, setSeverMessage] = React.useState('');
   const [STATE_MESSAGE, setStateMessage] = React.useState('');
   const [email, setEmail] = React.useState('');
 
@@ -85,9 +84,6 @@ export default function SignIn(props) {
             </View>
         </View>
       </View>
-      <Snackbar visible={STATE_MESSAGE}>
-        {SERVER_MESSAGE}
-      </Snackbar>
     </View>
   )
 }
