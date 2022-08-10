@@ -1,6 +1,6 @@
 
 const config = {
-    APPLICATION_URL: 'https://ultimate-news-api.herokuapp.com'
+    APPLICATION_URL: 'https://ultimate-news-new.herokuapp.com'
 }
 
 export default config;

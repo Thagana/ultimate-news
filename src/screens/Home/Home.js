@@ -51,7 +51,6 @@ const Home = (props) => {
         const { success, data } = await getAllNews(page, size);
         if (mounted.current) {
           if (success) {
-            console.log(data.data.length);
             if (data.data.length === 0) {
               setPageEnd(true);
             } else {
