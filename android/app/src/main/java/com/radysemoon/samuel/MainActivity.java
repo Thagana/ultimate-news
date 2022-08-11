@@ -1,4 +1,4 @@
-package com.leumasco.ultimatenews;
+package com.radysemoon.samuel;
 
 import android.os.Bundle;
 

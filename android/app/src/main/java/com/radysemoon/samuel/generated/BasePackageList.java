@@ -1,4 +1,4 @@
-package com.leumasco.ultimatenews.generated;
+package com.radysemoon.samuel.generated;
 
 import java.util.Arrays;
 import java.util.List;
