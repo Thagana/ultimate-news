@@ -6,13 +6,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from "./Verify.style";
 import Server from "../../../service/server";
 
-export default function Verify(props) {
+type Props = {
+  navigation: {
+    navigate(param: string): void;
+  }
+}
+
+export default function Verify(props: Props) {
   const { navigation } = props;
   const [code, setCode] = React.useState("");
   const [SERVER_MESSAGE, setSeverMessage] = React.useState("");
-  const login = useStoreActions((state) => state.setAuthenticated);
+  const login = useStoreActions<any, any>((state) => state.setAuthenticated);
 
-  const handleChange = (val) => {
+  const handleChange = (val: string) => {
     setCode(val);
   };
   
@@ -86,7 +92,7 @@ export default function Verify(props) {
           </TouchableOpacity>
         </View>
       </View>
-      <Snackbar visible={SERVER_MESSAGE}>{SERVER_MESSAGE}</Snackbar>
+      <Snackbar visible={SERVER_MESSAGE.length !== 0}>{SERVER_MESSAGE}</Snackbar>
     </View>
   );
 }

@@ -23,7 +23,7 @@ export class Manager{
 }
 
 export class Store {
-    static async getArticles(){
+    static async getArticles() {
         let articles;
         if( await AsyncStorage.getItem('articles') === null){
             articles = []
@@ -32,14 +32,14 @@ export class Store {
         }
         return articles
     }
-    static async addArticle(article: any){
+    static async addArticle(article: any) {
         const articles = Store.getArticles();
         articles.then(data => {
             data.push(article);
             AsyncStorage.setItem('articles', JSON.stringify(data))
         }).catch(error => console.log(error));
     }
-    static removeArticle(id: number){
+    static removeArticle(id: number) {
         const articles = Store.getArticles();
         articles.then(data => {
             data.forEach((article: any, index: number) => {
@@ -50,7 +50,7 @@ export class Store {
             AsyncStorage.setItem('articles', JSON.stringify(data));
         }).catch(error => console.log(error))
     }
-    static async removeAllArticles(){
+    static async removeAllArticles() {
         try{
             await AsyncStorage.removeItem('articles')
         }catch(error){
