@@ -56,9 +56,7 @@ export default function Verify(props) {
       <View style={styles.googleGoogleContainer}>
         <View>
           <Image
-            source={{
-              uri: "https://avatars.githubusercontent.com/u/68122202?s=400&u=4abc9827a8ca8b9c19b06b9c5c7643c87da51e10&v=4",
-            }}
+            source={require('../../../assets/ic_launch.png')}
             style={styles.Avatar}
           />
         </View>

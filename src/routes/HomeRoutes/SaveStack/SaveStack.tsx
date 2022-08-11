@@ -2,16 +2,17 @@ import * as React from 'react';
 import { Alert, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useStoreActions, useStoreState } from 'easy-peasy';
+import { State, useStoreActions, useStoreState } from 'easy-peasy';
 import SafeScreen from "../../../screens/Save";
 
 /** Functions */
 import { Store } from "../../../functions/articleController";
+import { Model } from '../../../Store/model';
 
 const SafeStack = createStackNavigator();
 const SafeStackScreen = () => {
   const removeAll = useStoreActions<any, any>((action) => action.removeAllArticles);
-  const isDarkMode = useStoreState((state) => state.isDarkMode);
+  const isDarkMode = useStoreState((state: State<Model>) => state.isDarkMode);
 
   const showAlert = () => {
     Alert.alert(

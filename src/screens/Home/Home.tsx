@@ -6,13 +6,13 @@ import {
   FlatList,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
-import Article from "../../components/Articels/Article";
+import Article from "../../components/Articles/Article";
 import { getAllNews } from "../../functions/newsController";
 import styles from "./Home.style";
 import HeaderList from "../../components/HeaderList/HeaderList";
 
-import LoadingArticle from "../../components/Articels/LoadingArticle";
-import ErrorArticle from "../../components/Articels/ErrorArticle";
+import LoadingArticle from "../../components/Articles/LoadingArticle";
+import ErrorArticle from "../../components/Articles/ErrorArticle";
 import EmptyList from "../../components/EmptyList";
 import ListFooter from "../../components/ListFooter";
 
@@ -39,7 +39,6 @@ const Home = (props: Props) => {
   // SERVER STATES
   const [SERVER_STATE, setServerState] = React.useState("IDLE");
 
-  const onDismissSnackBar = () => setVisible(false);
   const onToggleSnackBar = () => setVisible(!visible);
 
   const mounted = React.useRef(true);

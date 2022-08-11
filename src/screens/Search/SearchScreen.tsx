@@ -1,16 +1,22 @@
 import * as React from "react";
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Platform } from "react-native";
 import { SearchBar } from "react-native-elements";
 
 /** Component */
-import Article from "../../components/Articels";
+import Article from "../../components/Articles";
 
 
 /** news API */
 import { getSearchedNews } from "../../functions/newsController";
 import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
 
-const Home = (props) => {
+type Props = {
+  navigation: {
+    navigate(param: string): void;
+  }
+}
+
+const Home = (props: Props) => {
   const [term, setterm] = React.useState("");
   const [articles, setArticle] = React.useState([]);
   const [SERVER_STATE, setServerSate] = React.useState('IDLE');
@@ -19,13 +25,13 @@ const Home = (props) => {
     try {
       const { data, success } = await getSearchedNews(term);
       if (success) {
-        const mapped = data.map((item) => ({
+        const mapped = data.map((item: { source: { name: string }, author: string, name: string, urlToImage: string, publishedAt: string, url: string, title: string, description: string }) => ({
           source: item.source.name || 'unknown',
           author: item.author || 'unknown',
           urlToImage: item.urlToImage,
           publishedAt: item.publishedAt,
           title: item.title,
-          url: item.url || 'https://kulture-bucket.s3.af-south-1.amazonaws.com/68122202.jpeg',
+          url: item.url || 'https://theultimatenews.xyz',
           description: item.description
         }))
         setArticle(mapped);
