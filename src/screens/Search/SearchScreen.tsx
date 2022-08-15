@@ -1,6 +1,5 @@
 import * as React from "react";
-import { View, Text, SafeAreaView, Platform } from "react-native";
-import { SearchBar } from "react-native-elements";
+import { View, Text, SafeAreaView, TextInput } from "react-native";
 
 /** Component */
 import Article from "../../components/Articles";
@@ -52,11 +51,10 @@ const Home = (props: Props) => {
         marginTop: 27,
       }}
     >
-      <SearchBar
+      <TextInput
         placeholder="Search"
         onChangeText={(term) => setterm(term)}
         value={term}
-        platform={Platform.OS == "ios" ? "ios" : "android"}
         autoFocus
         style={{
           shadowColor: '#000',
@@ -69,7 +67,6 @@ const Home = (props: Props) => {
           color: '#fff',
         }}
         keyboardAppearance="dark"
-        onCancel={() => props.navigation.navigate("Ultimate News")}
       />
         <View>
           <ScrollView>

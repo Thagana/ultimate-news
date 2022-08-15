@@ -2,11 +2,23 @@ import * as React from "react";
 import { View, Text } from 'react-native';
 import { createStore, StoreProvider, persist, useStoreRehydrated } from "easy-peasy";
 import * as Notifications from 'expo-notifications';
+import FlashMessage from 'react-native-flash-message';
+
 import Routes from './src/routes/Route';
 
 import store from "./src/Store/model";
 
 const myStore = createStore(persist(store));
+
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
 
 export const RootWrapper = () => {
 
@@ -41,6 +53,7 @@ export default function App() {
   return (
       <StoreProvider store={myStore}>
         <RootWrapper />
+        <FlashMessage position="top" />
       </StoreProvider>
   );
 }

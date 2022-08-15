@@ -1,5 +1,5 @@
-import { StyleSheet } from "react-native";
-
+import { StyleSheet, Platform } from 'react-native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 
 const styles = StyleSheet.create({
     container: {
@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     Avatar: {
-        width: 100,
-        height: 100
+        width: Platform.OS === 'ios' ? wp(60): wp(57),
+        height: Platform.OS === 'ios' ? hp(28): hp(30.2)
     },
     googleGoogleContainer: {
         flex: 1,
@@ -18,29 +18,34 @@ const styles = StyleSheet.create({
     },
     textInput: {
         borderColor: '#000',
-        borderWidth: 2,
-        borderRadius: 7,
-        width: 300,
-        height: 60,
-        padding: 10,
-        margin: 3
+        borderWidth: wp(.4),
+        borderRadius: wp(1),
+        width: wp(80),
+        height: hp(8),
+        padding: wp(4),
+        margin: wp(1)
     },
     googleButton: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#24a0ed',
-        width: 300,
-        height: 60,
-        borderRadius: 10,
-        margin: 3
+        width: wp(80),
+        height: hp(8),
+        borderRadius: wp(1),
+        margin: wp(1)
     },
     textButton: {
-        color: '#fff'
+        color: '#fff',
+        fontSize: wp(4),
     },
-    signInText: {
-        textDecorationLine: 'underline'
-    },
+    verifyCode: {
+        textDecorationStyle: 'solid',
+        textDecorationColor: '#000',
+        textDecorationLine: 'underline',
+        margin: wp(1),
+        fontSize: wp(4)
+    }
 });
 
 export default styles;

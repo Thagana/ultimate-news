@@ -36,7 +36,11 @@ const SafeStackScreen = () => {
     );
   }
   return (
-    <SafeStack.Navigator>
+    <SafeStack.Navigator
+      screenOptions={{ 
+        headerShown: false
+      }}
+    >
       <SafeStack.Screen
         name="Saved"
         component={SafeScreen}

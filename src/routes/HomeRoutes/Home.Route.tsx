@@ -1,5 +1,5 @@
 import * as React from "react";
-import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Ionicons } from '@expo/vector-icons';
 
@@ -9,7 +9,7 @@ import SafeStackScreen from "./SaveStack/SaveStack";
 import HomeStack from './HomeStack/HomeStack';
 import ProfileStack from "./ProfileStack";
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const TabScreen = () => {
   return (

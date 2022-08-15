@@ -4,8 +4,8 @@ class Server {
     static async login(code: string) {
         return Axios.post('/auth/login', { code })
     }
-    static async register(email: string) {
-        return Axios.post('/auth/register', { email });
+    static async register(email: string, token: string) {
+        return Axios.post('/auth/register', { email, token });
     }
     static async checkToken(token: string) {
         return Axios.post('/auth/check', { token });
